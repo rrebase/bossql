@@ -1,0 +1,29 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>bossql</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'challenges/style.css' %}">
+</head>
+<body>
+<header>
+  <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light">
+    <a class="navbar-brand" href="">bossql.com</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><a class="nav-link" href="">Tutorials</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'challenges:index' %}">Challenges</a>
+        <li class="nav-item"><a class="nav-link" href="">Stats</a>
+        <li class="nav-item"><a class="nav-link" href="">About</a>
+      </ul>
+      <button class="btn btn-outline-success mr-sm-2 my-sm-0" type="submit">Log in</button>
+      <button class="btn btn-outline-success mr-sm-2 my-sm-0" type="submit">Sign up</button>
+    </div>
+  </nav>
+</header>

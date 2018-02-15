@@ -104,6 +104,9 @@ venv.bak/
 # mypy
 .mypy_cache/
 
+# all of .idea/
+.idea/
+
 # User-specific stuff:
 .idea/**/workspace.xml
 .idea/**/tasks.xml

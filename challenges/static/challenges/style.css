@@ -1,0 +1,17 @@
+.jumbo-header {
+    margin-top: 3%;
+}
+
+.jumbo-parag {
+    font-size: 26px;
+    font-weight: 200;
+}
+
+.jumbotron {
+    color: #fff;
+    background: #159957 linear-gradient(120deg, #155799, #159957);
+}
+
+footer {
+    clear: both;
+}
