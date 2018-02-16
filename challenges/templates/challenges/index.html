@@ -1,6 +1,6 @@
-{% load static %}
-{% include 'challenges/header.html' %}
+{% extends 'challenges/base.html' %}
 
+{% block content %}
 <div class="jumbotron ng-scope">
   <div class="container">
     <h1 class="jumbo-header">bossql</h1>
@@ -30,4 +30,4 @@
   <p style="text-align: center">No challenges available!</p>
 {% endif %}
 
-{% include 'challenges/footer.html' %}
+{% endblock %}
