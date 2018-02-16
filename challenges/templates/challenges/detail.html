@@ -1,13 +1,17 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'challenges/style.css' %}">
+{% endblock %}
 
 {% block content %}
-<div class="container" style="margin-top: 10%">
-  <p><b>Debug info:</b></p>
-  <p>Viewing challenge: {{ challenge.challenge_name }}</p>
-  <p>Challenge id: {{ challenge.challenge_id }}</p>
-  <p>Challenge available: {{ challenge.challenge_available }}</p>
-  <p>Challenge desc: {{ challenge.challenge_desc }}</p>
-  <p>Challenge text: {{ challenge.challenge_text }}</p>
-</div>
-
+  <div class="container" style="margin-top: 10%">
+    <p><b>Debug info:</b></p>
+    <p>Viewing challenge: {{ challenge.challenge_name }}</p>
+    <p>Challenge id: {{ challenge.challenge_id }}</p>
+    <p>Challenge available: {{ challenge.challenge_available }}</p>
+    <p>Challenge desc: {{ challenge.challenge_desc }}</p>
+    <p>Challenge text: {{ challenge.challenge_text }}</p>
+  </div>
 {% endblock %}
