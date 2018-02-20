@@ -20,8 +20,19 @@
         <li class="nav-item"><a class="nav-link" href="">Stats</a>
         <li class="nav-item"><a class="nav-link" href="">About</a>
       </ul>
-      <a class="btn btn-outline-success mr-sm-2 my-sm-0" href="{% url 'login' %}">Log in</a>
-      <a class="btn btn-outline-success mr-sm-2 my-sm-0" href="{% url 'register' %}">Register</a>
+      <span class="mr-sm-3 my-sm-0">
+        {% if user.is_authenticated %}
+          Logged in as <span style="color: green">{{ user.username }}</span>!
+        {% else %}
+          You are not logged in!
+        {% endif %}
+      </span>
+      {% if user.is_authenticated %}
+        <a class="btn btn-outline-success mr-sm-2 my-sm-0" href="{% url 'logout' %}">Log out</a>
+      {% else %}
+        <a class="btn btn-outline-success mr-sm-2 my-sm-0" href="{% url 'login' %}">Log in</a>
+        <a class="btn btn-outline-success mr-sm-2 my-sm-0" href="{% url 'accounts:register' %}">Register</a>
+      {% endif %}
     </div>
   </nav>
 </header>
