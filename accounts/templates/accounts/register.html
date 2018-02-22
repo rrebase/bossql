@@ -2,5 +2,12 @@
 {% load static %}
 
 {% block content %}
-  <h1 style="margin-top: 10%;text-align: center">Register page!</h1>
+  <div style="margin-top: 10%; margin-left: 20%">
+    <h2 class="mb-4">Register page!</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Sign up</button>
+    </form>
+  </div>
 {% endblock %}
