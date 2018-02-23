@@ -5,6 +5,10 @@ from .models import CustomUser
 
 class CustomUserCreationForm(UserCreationForm):
 
+    error_messages = {
+        'password_mismatch': "The two password fields didn't match.",
+    }
+
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs)
         self.fields["username"].widget.attrs["class"] = "form-control"

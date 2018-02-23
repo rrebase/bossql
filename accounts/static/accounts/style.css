@@ -4,3 +4,8 @@
     margin-right: 32%;
     margin-top: 8%;
 }
+
+.error-msg {
+    color: red;
+    font-size: 12px;
+}
