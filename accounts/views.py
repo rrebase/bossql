@@ -1,15 +1,18 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.views import generic
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.urls import reverse_lazy
-from django.contrib.auth import get_user_model
-from .forms import CustomUserCreationForm
+from django.contrib.auth import get_user_model, authenticate
+from .forms import CustomUserCreationForm, CustomUserLoginForm
+from django.contrib.auth import login
+from django.contrib.auth.views import LoginView
 
-AUTH_USER_MODEL = "accounts.CustomUser"
 
-def login(request):
-    return render(request, "accounts/login.html", {})
+class Login(LoginView):
+    form_class = CustomUserLoginForm
+    success_url = reverse_lazy("home")
+    template_name = 'accounts/login.html'
 
 
 class Register(generic.CreateView):
@@ -17,6 +20,9 @@ class Register(generic.CreateView):
     success_url = reverse_lazy("home")
     template_name = "accounts/register.html"
 
-
-def register(request):
-    return render(request, "accounts/register.html", {})
+    def form_valid(self, form):
+        valid = super(Register, self).form_valid(form)
+        username, password = form.cleaned_data.get('username'), form.cleaned_data.get('password1')
+        new_user = authenticate(username=username, password=password)
+        login(self.request, new_user)
+        return valid
