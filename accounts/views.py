@@ -1,7 +1,4 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
 from django.views import generic
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model, authenticate
 from .forms import CustomUserCreationForm, CustomUserLoginForm

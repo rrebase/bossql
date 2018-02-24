@@ -23,7 +23,7 @@
       <span class="mr-sm-3 my-sm-0">
         {% if user.is_authenticated %}
           <span class="mr-4">Challenges completed: {{ user.completed_challenges }}</span>
-          Logged in as <span style="color: green">{{ user.username }}</span>!
+          Logged in as <a href="https://www.google.com" style="color: green">{{ user.username }}</a>!
         {% else %}
           You are not logged in!
         {% endif %}

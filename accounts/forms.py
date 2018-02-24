@@ -1,10 +1,8 @@
-from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
 from .models import CustomUser
 
 
 class CustomUserCreationForm(UserCreationForm):
-
     error_messages = {
         'password_mismatch': "The two password fields didn't match.",
     }
@@ -12,12 +10,13 @@ class CustomUserCreationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs)
         self.fields["username"].widget.attrs["class"] = "form-control"
+        self.fields["email"].widget.attrs["class"] = "form-control"
         self.fields["password1"].widget.attrs["class"] = "form-control"
         self.fields["password2"].widget.attrs["class"] = "form-control"
 
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = ("username",)
+        fields = ("username", "email")
         error_messages = ""
 
 
