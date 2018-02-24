@@ -10,10 +10,29 @@
     {% if user.username == customuser.username %}
       <b style="color:red">This is your profile.</b>
     {% endif %}
-    <h2><b>Profile info:</b></h2>
+    <h2 class="pb-3"><b>Profile info:</b></h2>
     <p>Username: {{ customuser.username }}</p>
-    <p>Email: {{ customuser.email }}</p>
+    {% if user.username == customuser.username or customuser.is_email_public %}
+      <p>Email: {{ customuser.email }}</p>
+    {% endif %}
     <p>Challenges completed: {{ customuser.completed_challenges }}</p>
 
+    {% if user.username == customuser.username %}
+      <h3 class="mt-5 pb-3">Change settings:</h3>
+      {% if form %}
+        <form method="post" class="ml-4">
+          {% csrf_token %}
+          <div class="form-group">
+            {{ form.allow_seen_in_stats }}
+            <label for="id_allow_seen_in_stats">Visible in stats</label>
+          </div>
+          <div class="form-group">
+            {{ form.is_email_public }}
+            <label for="id_is_email_public" class="form-check-label">Email public</label>
+          </div>
+          <button type="submit" class="btn btn-primary mt-3">Save settings</button>
+        </form>
+      {% endif %}
+    {% endif %}
   </div>
 {% endblock %}

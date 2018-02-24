@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model, authenticate
 
 from accounts.models import CustomUser
-from .forms import CustomUserCreationForm, CustomUserLoginForm
+from .forms import CustomUserCreationForm, CustomUserLoginForm, ProfileSettingsForm
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
 
@@ -16,12 +17,22 @@ class Login(LoginView):
 
 
 def profile_view(request, username):
-    return render(request, "accounts/profile.html", {"customuser": CustomUser.objects.get(username=username)})
+    # TODO: clean up and show success message
+    try:
+        instance = CustomUser.objects.get(id=request.user.id)
+    except CustomUser.DoesNotExist:
+        return render(request, "accounts/profile.html", {"customuser": CustomUser.objects.get(username=username)})
+    form = ProfileSettingsForm(request.POST or None, instance=instance)
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect(request.path_info)
+    context = {"customuser": CustomUser.objects.get(username=username), "form": form}
+    return render(request, "accounts/profile.html", context)
 
 
-class Profile(generic.DetailView):
-    model = CustomUser
-    template_name = "accounts/profile.html"
+# class Profile(generic.DetailView):
+#     model = CustomUser
+#     template_name = "accounts/profile.html"
 
 
 class Register(generic.CreateView):
