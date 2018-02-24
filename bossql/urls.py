@@ -24,6 +24,7 @@ urlpatterns = [
     path("", challenges.views.index, name="home"),
     path("accounts/", include("accounts.urls")),
     path("tutorials/", include("tutorials.urls")),
+    path("stats/", include("stats.urls")),
     path("challenges/", include("challenges.urls")),
     path("admin/", admin.site.urls),
     path('logout/', django.contrib.auth.views.LogoutView.as_view(), name='logout'),

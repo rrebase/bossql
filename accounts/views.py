@@ -1,6 +1,9 @@
+from django.shortcuts import render
 from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model, authenticate
+
+from accounts.models import CustomUser
 from .forms import CustomUserCreationForm, CustomUserLoginForm
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
@@ -10,6 +13,15 @@ class Login(LoginView):
     form_class = CustomUserLoginForm
     success_url = reverse_lazy("home")
     template_name = 'accounts/login.html'
+
+
+def profile_view(request, username):
+    return render(request, "accounts/profile.html", {"customuser": CustomUser.objects.get(username=username)})
+
+
+class Profile(generic.DetailView):
+    model = CustomUser
+    template_name = "accounts/profile.html"
 
 
 class Register(generic.CreateView):
