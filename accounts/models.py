@@ -17,13 +17,12 @@ class MyValidator(UnicodeUsernameValidator):
 
 
 class CustomUser(AbstractUser):
-    username_validator = MyValidator()
     username = models.CharField(
         _('username'),
         max_length=150,
         unique=True,
         help_text=_('Required. 150 characters or fewer. Letters, digits and ./+/-/_ only.'),
-        validators=[username_validator],
+        validators=[MyValidator()],
         error_messages={
             'unique': _("A user with that username already exists."),
         },
@@ -32,4 +31,5 @@ class CustomUser(AbstractUser):
     completed_challenges = models.IntegerField(default=0)
     allow_seen_in_stats = models.BooleanField(default=True)
     is_email_public = models.BooleanField(default=False)
+
     objects = CustomUserManager()

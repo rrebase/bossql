@@ -1,6 +1,5 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
-UserModel = get_user_model()
 
 
 class EmailOrUsernameModelBackend(ModelBackend):
@@ -12,14 +11,14 @@ class EmailOrUsernameModelBackend(ModelBackend):
         else:
             kwargs = {'username': username}
         try:
-            user = UserModel.objects.get(**kwargs)
+            user = get_user_model().objects.get(**kwargs)
             if user.check_password(password):
                 return user
-        except UserModel.DoesNotExist:
+        except get_user_model().DoesNotExist:
             return None
 
     def get_user(self, username):
         try:
-            return UserModel.objects.get(pk=username)
-        except UserModel.DoesNotExist:
+            return get_user_model().objects.get(pk=username)
+        except get_user_model().DoesNotExist:
             return None

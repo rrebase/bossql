@@ -10,15 +10,16 @@ class CustomUserCreationForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs)
-        self.fields["username"].widget.attrs["class"] = "form-control"
-        self.fields["email"].widget.attrs["class"] = "form-control"
-        self.fields["password1"].widget.attrs["class"] = "form-control"
-        self.fields["password2"].widget.attrs["class"] = "form-control"
+        for field in ("username", "email", "password1", "password2"):
+            self.fields[field].widget.attrs["class"] = "form-control"
 
     class Meta(UserCreationForm.Meta):
         model = CustomUser
         fields = ("username", "email")
         error_messages = ""
+
+    def clean_username(self):  # TODO add invalid classes
+        pass
 
 
 class CustomUserChangeForm(UserChangeForm):
