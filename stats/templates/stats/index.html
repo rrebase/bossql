@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'stats/style.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="container" style="margin-top: 100px">
+    <h1>Stats</h1>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col"><a
+            href="?order_by={% if request.GET.order_by == 'username' %}-{% endif %}username">Username
+          {% if 'username' in request.GET.order_by %}
+            <div class="arrow-{% if request.GET.order_by != 'username' %}up{% else %}down{% endif %} ml-2 mb-1"></div>
+          {% endif %}
+        </a></th>
+        <th scope="col"><a
+            href="?order_by={% if request.GET.order_by == 'completed_challenges' %}-{% endif %}completed_challenges">Challenges completed
+          {% if 'username' not in request.GET.order_by or not request.GET.order_by %}
+            <div class="arrow-{% if request.GET.order_by == 'completed_challenges' %}up{% else %}down{% endif %} ml-2 mb-1"></div>
+          {% endif %}
+        </a>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for usr in users %}
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td><a {% if user.username == usr.username %}class="stats-user"{% endif %} href="{% url 'accounts:profile' username=usr.username %}">{{ usr.username }}</a><br></td>
+          <td>{{ usr.completed_challenges }}<br></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

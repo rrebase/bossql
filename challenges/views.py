@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.shortcuts import get_object_or_404
+from django.views import generic
 
 from .models import Challenge
 
@@ -9,6 +9,6 @@ def index(request):
     return render(request, "challenges/index.html", {"challenges": challenges})
 
 
-def detail(request, challenge_id):
-    challenge = get_object_or_404(Challenge, pk=challenge_id)
-    return render(request, "challenges/detail.html", {"challenge": challenge})
+class DetailView(generic.DetailView):
+    model = Challenge
+    template_name = "challenges/detail.html"

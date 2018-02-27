@@ -1,0 +1,10 @@
+.account-form {
+    text-align: left;
+    margin-top: 100px;
+    max-width: 450px;
+}
+
+.error-msg {
+    color: red;
+    font-size: 12px;
+}
