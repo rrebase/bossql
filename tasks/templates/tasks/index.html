@@ -1,0 +1,277 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Title</title>
+    {% block styles %}
+        <link rel="stylesheet" href="{% static 'tasks/index.css' %}">
+    {% endblock %}
+</head>
+<body>
+    {% block content %}
+        <div class="container-fluid">
+            <span class="border">
+                <div class="topped">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="list-example" class="list-group">
+                              <a class="list-group-item list-group-item-action" href="#list-item-1">Item 1</a>
+                              <a class="list-group-item list-group-item-action" href="#list-item-2">Item 2</a>
+                              <a class="list-group-item list-group-item-action" href="#list-item-3">Item 3</a>
+                            </div>
+                            <div data-spy="scroll" data-target="#list-example" data-offset="0" class="scrollspy-example">
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="list-item-1">
+                                        <tr>
+                                            <th>
+                                                Id1
+                                            </th>
+                                            <th>
+                                                Animal1
+                                            </th>
+                                            <th>
+                                                Owner1
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                Cat
+                                            </td>
+                                            <td>
+                                                Jack
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                1
+                                            </td>
+                                            <td>
+                                                Dog
+                                            </td>
+                                            <td>
+                                                May
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                2
+                                            </td>
+                                            <td>
+                                                Cow
+                                            </td>
+                                            <td>
+                                                Kelly
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="list-item-2">
+                                        <tr>
+                                            <th>
+                                                Id2
+                                            </th>
+                                            <th>
+                                                Animal2
+                                            </th>
+                                            <th>
+                                                Owner2
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                Cat
+                                            </td>
+                                            <td>
+                                                Jack
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                1
+                                            </td>
+                                            <td>
+                                                Dog
+                                            </td>
+                                            <td>
+                                                May
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                2
+                                            </td>
+                                            <td>
+                                                Cow
+                                            </td>
+                                            <td>
+                                                Kelly
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="list-item-3">
+                                        <tr>
+                                            <th>
+                                                Id3
+                                            </th>
+                                            <th>
+                                                Animal3
+                                            </th>
+                                            <th>
+                                                Owner3
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                0
+                                            </td>
+                                            <td>
+                                                Cat
+                                            </td>
+                                            <td>
+                                                Jack
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                1
+                                            </td>
+                                            <td>
+                                                Dog
+                                            </td>
+                                            <td>
+                                                May
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                2
+                                            </td>
+                                            <td>
+                                                Cow
+                                            </td>
+                                            <td>
+                                                Kelly
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        &nbsp;
+                    </div>
+                </div>
+                <div class="insertion">
+                    <div id="mySidenav" class="sidenav">
+                      <a href="javascript:void(0)" class="closebtn">&times;</a>
+                      {% for i in challenges %}
+                        <a href="#highlight-{{ i }}">About</a>
+                      {% endfor %}
+                    </div>
+                    <span style="font-size:30px;cursor:pointer" class="open">&#9776; open</span>
+
+                    {% for i in challenges %}
+                        <div class="task">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <code>
+                                        Your task is to get all the records of animals, whose owner's name ends with y.
+                                    </code>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="highlight" id="highlight-{{ i }}"></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <button type="button" class="btn btn-outline-success" id="check-{{ i }}">Check</button>
+                                </div>
+                                <div class="col-md-4">
+                                    <button class="btn btn-outline-success"><i class="fa fa-refresh fa-spin" id="loading-{{ i }}"></i> Loading</button>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="alert alert-success" id="result-{{ i }}">
+                                      <strong>Success!</strong> Indicates a successful or positive action.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input type="checkbox" id="checkbox-{{ i }}"> Show the result table.
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="resultTable-{{ i }}">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <tr>
+                                                    <th>
+                                                        Id1
+                                                    </th>
+                                                    <th>
+                                                        Animal1
+                                                    </th>
+                                                    <th>
+                                                        Owner1
+                                                    </th>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        1
+                                                    </td>
+                                                    <td>
+                                                        Dog
+                                                    </td>
+                                                    <td>
+                                                        May
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        2
+                                                    </td>
+                                                    <td>
+                                                        Cow
+                                                    </td>
+                                                    <td>
+                                                        Kelly
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </span>
+        </div>
+    {% endblock %}
+</body>
+{% block scripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js"></script>
+    <script type="text/javascript" src="{% static 'tasks/index.js' %}"></script>
+{% endblock %}
+</html>

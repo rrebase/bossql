@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
+    'tasks.apps.TasksConfig',
     'tutorials.apps.TutorialsConfig',
     'stats.apps.StatsConfig',
     'challenges.apps.ChallengesConfig',
