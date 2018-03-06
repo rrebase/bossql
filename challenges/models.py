@@ -10,6 +10,9 @@ class ChallengeTopic(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
 
+    def __str__(self):
+        return self.description
+
 
 class Challenge(models.Model):
     topic = models.ForeignKey(ChallengeTopic,
@@ -17,7 +20,7 @@ class Challenge(models.Model):
                               related_name="challenges")
     name = models.CharField(max_length=200)
     description = models.TextField()
-    text = models.TextField()
+    additional_info = models.TextField(blank=True)
     available = models.BooleanField(default=True)
 
     def attempt(self, sql):
@@ -46,8 +49,8 @@ class ChallengeSourceTable(models.Model):
                                   related_name="source_tables")
     name = models.CharField(max_length=200)
     creation_sql = models.TextField()
-    column_names_json = models.TextField(default="")
-    content_rows_json = models.TextField(default="")
+    column_names_json = models.TextField(default="", editable=False)
+    content_rows_json = models.TextField(default="", editable=False)
 
     def create_table(self, cur):
         cur.execute(self.creation_sql)
@@ -80,6 +83,9 @@ class ChallengeSourceTable(models.Model):
                 conn.rollback()
         super().save(*args, **kwargs)
 
+    def __str__(self):
+        return self.name
+
 
 class ChallengeResultTable(models.Model):
     challenge = models.OneToOneField(Challenge,
@@ -93,3 +99,6 @@ class ChallengeResultTable(models.Model):
 
     def get_content_rows(self):
         return json.loads(self.content_rows_json)
+
+    def __str__(self):
+        return "ChallengeResultTable for challenge {}".format(self.challenge)
