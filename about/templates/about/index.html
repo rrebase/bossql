@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'about/style.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-5 pt-5">
+      <div>
+        <h2 class="mb-3">About</h2>
+        <p><b>bossql</b> is a place to learn SQL through a wide range of different challenges. From simple select
+        It was made as a software engineering project for a course at TTU.</p>
+        <h2 class="mt-4 mb-0">FAQ</h2><small class="text-muted">Frequently Asked Questions</small>
+        <h4 class="mt-4">What is SQL?</h4>
+        <p>SQL (Structured Query Language) is a language used for managing data held in a relational database.</p>
+        <h4 class="mt-4">Why is it called bossql?</h4>
+        <p>You have to be the boss of SQl to beat all the challenges in every topic.</p>
+        <h4 class="mt-4">Which SQL engine is used in challenges?</h4>
+        <p>PostgreSQL 9.5 </p>
+        <h4 class="mt-4">Why do I have to log in?</h4>
+        <p>To save and track your progress we need to have a way to identify you.
+          User data is not shared with anyone.</p>
+        <h4 class="mt-4">I found a bug. How do I report it?</h4>
+        <p>Please open an issue <a href="https://github.com/rrebase/bossql/issues">here</a>.</p>
+      </div>
+  </div>
+{% endblock %}
