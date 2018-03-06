@@ -1,0 +1,125 @@
+.topped {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    z-index: 999;
+    background-color: white;
+    width: 100%;
+}
+
+.scrollspy-example {
+    height:200px;
+    overflow-y: scroll;
+}
+.list-group-item {
+    color:green;
+    border-radius:5px;
+    border-color:green;
+}
+
+.list-group-item:hover, .list-group-item.active {
+    color:white;
+    background-color: green;
+    border-color:green;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+/* Handle */
+.scrollspy-example::-webkit-scrollbar-thumb {
+    background: white;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: green;
+}
+
+.highlight {
+    height: 175px;
+}
+
+.insertion {
+    margin-top:370px;
+}
+
+code {
+    color: black;
+}
+
+.task {
+    border:5px solid green;
+    border-radius: 10px;
+    padding:10px;
+    width:50%;
+    margin-left: auto;
+    margin-right:auto;
+    margin-bottom:10px;
+}
+
+.task:before {
+    margin-top:-300px;
+}
+
+table[id^='resultTable'] {
+    display: none;
+    visibility: hidden;
+}
+
+.sidenav {
+    height: 300px;
+    width: 0px;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    background-color: #ffffff;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    border-bottom: 5px solid green;
+    border-top: 5px solid green;
+    border-top-right-radius: 10px;
+    overflow-y: scroll;
+}
+
+
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: green;
+
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.open {
+        position: fixed;
+
+    color:green;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}

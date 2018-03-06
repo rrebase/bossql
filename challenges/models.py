@@ -1,4 +1,5 @@
 import json
+import psycopg2
 
 from django.db import models
 
@@ -20,14 +21,17 @@ class Challenge(models.Model):
     available = models.BooleanField(default=True)
 
     def attempt(self, sql):
-        with get_env_db_conn() as conn:
-            with conn.cursor() as cur:
-                for source_table in self.source_tables.all():
-                    source_table.create_table(cur)
-                cur.execute(sql)
-                result_column_names = [col.name for col in cur.description]
-                result_content_rows = [list(row) for row in cur.fetchall()]
-            conn.rollback()
+        try:
+            with get_env_db_conn() as conn:
+                with conn.cursor() as cur:
+                    for source_table in self.source_tables.all():
+                        source_table.create_table(cur)
+                    cur.execute(sql)
+                    result_column_names = [col.name for col in cur.description]
+                    result_content_rows = [list(row) for row in cur.fetchall()]
+                conn.rollback()
+        except psycopg2.ProgrammingError:
+            return (False, None, None)
         return (result_column_names == json.loads(self.result_table.column_names_json)
                 and result_content_rows == json.loads(self.result_table.content_rows_json),
                 result_column_names, result_content_rows)
@@ -60,7 +64,7 @@ class ChallengeSourceTable(models.Model):
     def _store_representation(self, cur):
         self.create_table(cur)
         cur.execute("SELECT * FROM {};".format(self.name))
-        column_names = list(map(lambda column: column.name, cur.description))
+        column_names = [column.name for column in cur.description]
         self.column_names_json = json.dumps(column_names)
         self.content_rows_json = json.dumps(cur.fetchall())
 
