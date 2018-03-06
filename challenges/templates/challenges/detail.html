@@ -1,17 +1,97 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
 
 {% block styles %}
-  <link rel="stylesheet" href="{% static 'challenges/style.css' %}">
+    <link rel="stylesheet" href="{% static 'challenges/detail.css' %}">
 {% endblock %}
 
 {% block content %}
-  <div class="container" style="margin-top: 10%">
-    <p><b>Debug info:</b></p>
-    <p>Viewing challenge: {{ challenge.challenge_name }}</p>
-    <p>Challenge id: {{ challenge.challenge_id }}</p>
-    <p>Challenge available: {{ challenge.challenge_available }}</p>
-    <p>Challenge desc: {{ challenge.challenge_desc }}</p>
-    <p>Challenge text: {{ challenge.challenge_text }}</p>
-  </div>
+    <div class="container-fluid">
+        <span class="border">
+            <div class="topped">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="list-example" class="list-group">
+                        {% for table in challenge.source_tables.all %}
+                          <a class="list-group-item list-group-item-action" href="#list-item-{{ forloop.counter }}">
+                            {{ table.name }}
+                          </a>
+                        {% endfor %}
+                        </div>
+                        <div data-spy="scroll" data-target="#list-example" data-offset="0" class="scrollspy-example">
+                        {% for table in challenge.source_tables.all %}
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="list-item-{{ forloop.counter }}">
+                                    <tr>
+                                      {% for column in table.get_column_names %}
+                                        <th>
+                                            {{ column }}
+                                        </th>
+                                      {% endfor %}
+                                    </tr>
+                                  {% for row in table.get_content_rows %}
+                                    <tr>
+                                      {% for value in row %}
+                                        <td>{{ value }}</td>
+                                      {% endfor %}
+                                    </tr>
+                                  {% endfor %}
+                                </table>
+                            </div>
+                        {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="insertion">
+              <div class="task">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <code>
+                              {{ challenge.description }}
+                          </code>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="highlight" id="editor-{{ challenge.pk }}"></div>
+                      </div>
+                  </div>
+                  <div class="row mt-1">
+                      <div class="col-md-8">
+                          <button type="button" class="btn btn-outline-success checkBtn" data-challenge-id="{{ challenge.pk }}">Check</button>
+                      </div>
+                      <div class="col-md-4">
+                          <div class="alert d-none" id="alert-{{ challenge.pk }}">
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-12 mt-1">
+                        <label>
+                          <input type="checkbox" id="checkbox-{{ challenge.pk }}">
+                          Show the result table.
+                        </label>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="table-responsive">
+                              <table class="table table-striped" id="resultTable-{{ challenge.pk }}">
+                                <caption id="nothingToShowMsg-{{ challenge.pk }}" class="" style="width: 100%; display: block">(nothing to show)</caption>
+                                <tbody id="resultTbody-{{ challenge.pk }}">
+                                </tbody>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+        </span>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js"></script>
+    <script type="text/javascript" src="{% static 'challenges/detail.js' %}"></script>
 {% endblock %}
