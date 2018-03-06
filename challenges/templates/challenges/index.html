@@ -26,7 +26,7 @@
           <div class="card-body">
             <h5 class="card-title">{{ challenge.name }}</h5>
             <p class="card-text">{{ challenge.description }}</p>
-            <a href="{% url 'challenges:detail' challenge.pk %}" class="btn {% if not challenge.challenge_available %} disabled btn-outline-dark {% else %} btn-outline-success {% endif %}">Go</a>
+            <a href="{% url 'challenges:detail' challenge.pk %}" class="btn {% if not challenge.available %} disabled btn-outline-dark {% else %} btn-outline-success {% endif %}">Go</a>
           </div>
         </div>{% if forloop.counter|divisibleby:3 %}<br></div>{% endif %}
       </div>{% endfor %}
