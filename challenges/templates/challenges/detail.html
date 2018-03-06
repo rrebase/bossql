@@ -2,16 +2,16 @@
 {% load static %}
 
 {% block styles %}
-    <link rel="stylesheet" href="{% static 'challenges/detail.css' %}">
+  <link rel="stylesheet" href="{% static 'challenges/detail.css' %}">
 {% endblock %}
 
 {% block content %}
-    <div class="container-fluid">
+  <div class="container-fluid">
         <span class="border">
             <div class="topped">
                 <div class="row">
-                    <div class="col-md-12">
-                        <div id="list-example" class="list-group">
+                    <div class="col-md-6">
+                        <div id="list-example" class="list-group text-center">
                         {% for table in challenge.source_tables.all %}
                           <a class="list-group-item list-group-item-action" href="#list-item-{{ forloop.counter }}">
                             {{ table.name }}
@@ -20,7 +20,7 @@
                         </div>
                         <div data-spy="scroll" data-target="#list-example" data-offset="0" class="scrollspy-example">
                         {% for table in challenge.source_tables.all %}
-                            <div class="table-responsive">
+                          <div class="table-responsive">
                                 <table class="table table-striped" id="list-item-{{ forloop.counter }}">
                                     <tr>
                                       {% for column in table.get_column_names %}
@@ -46,14 +46,14 @@
             <div class="insertion">
               <div class="task">
                   <div class="row">
-                      <div class="col-md-12">
+                      <div class="col pl-4 pt-2 pb-3">
                           <code>
                               {{ challenge.description }}
                           </code>
                       </div>
                   </div>
-                  <div class="row">
-                      <div class="col-md-12">
+                  <div class="row mb-4">
+                      <div class="col">
                           <div class="highlight" id="editor-{{ challenge.pk }}"></div>
                       </div>
                   </div>
@@ -67,9 +67,9 @@
                       </div>
                   </div>
                   <div class="row">
-                      <div class="col-md-12 mt-1">
-                        <label>
-                          <input type="checkbox" id="checkbox-{{ challenge.pk }}">
+                      <div class="col-md-12 ml-3 mt-2 form-check">
+                        <label class="form-check-label">
+                          <input class="form-check-input" type="checkbox" id="checkbox-{{ challenge.pk }}">
                           Show the result table.
                         </label>
                       </div>
@@ -88,10 +88,10 @@
               </div>
             </div>
         </span>
-    </div>
+  </div>
 {% endblock %}
 
 {% block scripts %}
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js"></script>
-    <script type="text/javascript" src="{% static 'challenges/detail.js' %}"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js"></script>
+  <script type="text/javascript" src="{% static 'challenges/detail.js' %}"></script>
 {% endblock %}
