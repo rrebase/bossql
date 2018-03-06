@@ -1,26 +1,27 @@
 .topped {
     position: fixed;
-    top: 56px;
-    left: 0;
+    top: 65px;
+    left: 370px;
     z-index: 999;
     background-color: white;
     width: 100%;
 }
 
 .scrollspy-example {
-    height:200px;
+    height: 200px;
     overflow-y: scroll;
 }
+
 .list-group-item {
-    color:green;
-    border-radius:5px;
-    border-color:green;
+    color: #454545;
+    border-radius: 5px;
+    border-color: #454545;
 }
 
 .list-group-item:hover, .list-group-item.active {
-    color:white;
-    background-color: green;
-    border-color:green;
+    color: white;
+    background-color: #dbdbdb;
+    border-color: #454545;
 }
 
 ::-webkit-scrollbar {
@@ -47,7 +48,7 @@
 }
 
 .insertion {
-    margin-top:370px;
+    margin-top: 370px;
 }
 
 code {
@@ -55,17 +56,17 @@ code {
 }
 
 .task {
-    border:5px solid green;
+    border: 5px solid #b3aeae;
     border-radius: 10px;
-    padding:10px;
-    width:50%;
+    padding: 10px;
+    width: 50%;
     margin-left: auto;
-    margin-right:auto;
-    margin-bottom:10px;
+    margin-right: auto;
+    margin-bottom: 10px;
 }
 
 .task:before {
-    margin-top:-300px;
+    margin-top: -300px;
 }
 
 table[id^='resultTable'] {
@@ -84,19 +85,17 @@ table[id^='resultTable'] {
     transition: 0.5s;
     padding-top: 60px;
     padding-bottom: 60px;
-    border-bottom: 5px solid green;
-    border-top: 5px solid green;
+    /*border-bottom: 5px solid green;*/
+    /*border-top: 5px solid green;*/
     border-top-right-radius: 10px;
     overflow-y: scroll;
 }
-
-
 
 .sidenav a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 25px;
-    color: green;
+    /*color: green;*/
 
     transition: 0.3s;
 }
@@ -114,12 +113,17 @@ table[id^='resultTable'] {
 }
 
 .open {
-        position: fixed;
+    position: fixed;
 
-    color:green;
+    /*color: green;*/
 }
 
 @media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
 }
