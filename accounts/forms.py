@@ -18,9 +18,6 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ("username", "email")
         error_messages = ""
 
-    def clean_username(self):  # TODO add invalid classes
-        pass
-
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
