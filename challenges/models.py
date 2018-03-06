@@ -11,7 +11,7 @@ class ChallengeTopic(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return self.description
+        return self.name
 
 
 class Challenge(models.Model):
