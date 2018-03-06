@@ -18,7 +18,7 @@
         <li class="nav-item {% if "tutorials" in request.get_full_path %} active {% endif %}">
           <a class="nav-link" href="{% url 'tutorials:index' %}">Tutorials</a></li>
         <li class="nav-item"><a class="nav-link" href="{% url 'stats:index' %}">Stats</a>
-        <li class="nav-item"><a class="nav-link" href="">About</a>
+        <li class="nav-item"><a class="nav-link" href="{% url 'about:index' %}">About</a>
       </ul>
       <span class="mr-sm-3 my-sm-0">
         {% if user.is_authenticated %}

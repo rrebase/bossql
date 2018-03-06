@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'tutorials.apps.TutorialsConfig',
     'stats.apps.StatsConfig',
+    'about.apps.AboutConfig',
     'challenges.apps.ChallengesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
