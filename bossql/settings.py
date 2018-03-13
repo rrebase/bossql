@@ -127,7 +127,18 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
+# Challenges environment db settings
+
+ENV_DATABASE = {
+    'dbname': 'bossql_env',
+    'user': 'bossql',
+    'password': 'bossql'
+}
+
+# Allow the usage of local_settings.py, which takes precedence
+# over settings.py
+
 try:
-    from local_settings import *
+    from .local_settings import *
 except ImportError:
     pass

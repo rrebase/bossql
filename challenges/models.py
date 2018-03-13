@@ -11,11 +11,7 @@ class ChallengeTopic(models.Model):
     description = models.TextField()
 
     def __str__(self):
-<<<<<<< HEAD
-        return self.description
-=======
         return self.name
->>>>>>> c6dae3883a1c7a79b2cb1a559df2b15b47fe3a79
 
 
 class Challenge(models.Model):
