@@ -34,7 +34,7 @@ class Challenge(models.Model):
                     result_content_rows = [list(row) for row in cur.fetchall()]
                 conn.rollback()
         except psycopg2.ProgrammingError:
-            return (False, None, None)
+            return False, None, None
         return (result_column_names == json.loads(self.result_table.column_names_json)
                 and result_content_rows == json.loads(self.result_table.content_rows_json),
                 result_column_names, result_content_rows)
