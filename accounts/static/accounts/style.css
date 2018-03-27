@@ -8,3 +8,23 @@
     color: red;
     font-size: 12px;
 }
+
+.profile-username {
+    font-weight: 500;
+    font-size: 70px;
+}
+
+.rank {
+    width: 150px;
+    height: 150px;
+    padding: 40px 10px;
+    font-size: 40px;
+    border-radius: 10px;
+    text-align: center;
+    border: 2px solid #666;
+    color: #666;
+}
+
+small {
+    font-size: 22px;
+}

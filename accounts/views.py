@@ -8,6 +8,7 @@ from accounts.models import CustomUser
 from .forms import CustomUserCreationForm, CustomUserLoginForm, ProfileSettingsForm
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
+from django.contrib import messages
 
 
 class Login(LoginView):
@@ -25,6 +26,7 @@ def profile_view(request, username):
     form = ProfileSettingsForm(request.POST or None, instance=instance)
     if form.is_valid():
         form.save()
+        messages.success(request, 'Profile details updated.')
         return HttpResponseRedirect(request.path_info)
     context = {"customuser": CustomUser.objects.get(username=username), "form": form}
     return render(request, "accounts/profile.html", context)
