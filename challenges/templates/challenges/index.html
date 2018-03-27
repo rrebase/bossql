@@ -16,22 +16,22 @@
     </div>
   </div>
   <br>
-  {% if challenges %}
+  {% if topics %}
     <div class="container">
-      {% for challenge in challenges %}
-        {% if forloop.counter0|divisibleby:3 or forloop.counter0 == 0 %}
-          <div class="row">{% endif %}
+      {% for topic in topics %}
       <div class="col-sm-4">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">{{ challenge.name }}</h5>
-            <p class="card-text">{{ challenge.description }}</p>
-            <a href="{% url 'challenges:detail' challenge.pk %}" class="btn {% if not challenge.available %} disabled btn-outline-dark {% else %} btn-outline-success {% endif %}">Go</a>
+            <h5 class="card-title">{{ topic.name }}</h5>
+            <p class="card-text">{{ topic.short_description }}</p>
+            <a href="{% url 'challenges:topic_detail' topic.pk %}"
+               class="btn {% if not topic.available %}disabled btn-outline-dark{% else %}btn-outline-success{% endif %}">Go</a>
           </div>
-        </div>{% if forloop.counter|divisibleby:3 %}<br></div>{% endif %}
-      </div>{% endfor %}
+        </div>
+      </div>
+      {% endfor %}
     </div>
   {% else %}
-    <p class="text-center">No challenges available!</p>
+    <p class="text-center">No topics available!</p>
   {% endif %}
 {% endblock %}
