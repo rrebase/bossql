@@ -1,0 +1,24 @@
+{% extends 'tutorials/index.html' %}
+
+
+{% block tutorial %}
+<div id="content">
+<h1>Create</h1><br>
+Create clause is a clause in SQL used to create a new database or table.<br>
+The standard format of create clauses are the following:<br>
+<b>CREATE DATABASE database name;</b><br>
+<b>CREATE TABLE table name(columns and their descriptions);</b>
+Examples of a CREATE clause:<br><br>
+<pre>CREATE DATABASE newDB;</pre>
+<pre>CREATE TABLE Workers (<br>
+    workerId INT AUTO_INCREMENT PRIMARY KEY,
+    firstname VARCHAR(80),
+    lastname VARCHAR(140),
+    age SMALLINT(3)
+);
+</pre>
+In the first query, we create new database named newDB.<br>
+In the second query, we create new table named Workers that has the following columns.<br>
+
+</div>
+{% endblock %}
