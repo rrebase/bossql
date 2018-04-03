@@ -1,11 +1,13 @@
-from selenium import webdriver
 import unittest
 
-class PythonOrgSearch(unittest.TestCase):
+from selenium import webdriver
+
+
+class AccountTestCase(unittest.TestCase):
 
     def setUp(self):
-        chromedriver = '/home/mikk/Downloads/chromedriver_linux64/chromedriver'
-        self.driver = webdriver.Chrome(chromedriver)
+        chrome_driver = '/home/mikk/Downloads/chromedriver_linux64/chromedriver'
+        self.driver = webdriver.Chrome(chrome_driver)
         self.log_in1()
         self.resetVisible()
         self.turnOffEmailPublic()
@@ -74,7 +76,8 @@ class PythonOrgSearch(unittest.TestCase):
 
     def test_log_in(self):
         self.driver.get('http://localhost:8000/')
-        self.assertTrue('Logged in as <a href="/accounts/mikk125/" style="color: green">mikk125</a>!' in self.driver.page_source)
+        self.assertTrue(
+            'Logged in as <a href="/accounts/mikk125/" style="color: green">mikk125</a>!' in self.driver.page_source)
 
     def test_log_out(self):
         self.log_out()
@@ -84,6 +87,7 @@ class PythonOrgSearch(unittest.TestCase):
     def tearDown(self):
         self.log_out()
         self.driver.close()
+
 
 if __name__ == "__main__":
     unittest.main()
