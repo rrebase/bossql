@@ -21,7 +21,7 @@ import django.contrib.auth.urls
 import challenges.views
 
 urlpatterns = [
-    path("", challenges.views.index, name="home"),
+    path("", challenges.views.IndexView.as_view(), name="home"),
     path("accounts/", include("accounts.urls")),
     path("tutorials/", include("tutorials.urls")),
     path("stats/", include("stats.urls")),
