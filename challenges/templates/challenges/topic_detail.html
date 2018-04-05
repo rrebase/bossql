@@ -12,14 +12,14 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div id="list-example" class="list-group text-center">
-                        {% for table in challenge.source_tables.all %}
+                        {% for table in topic.source_tables.all %}
                           <a class="list-group-item list-group-item-action" href="#list-item-{{ forloop.counter }}">
                             {{ table.name }}
                           </a>
                         {% endfor %}
                         </div>
                         <div data-spy="scroll" data-target="#list-example" data-offset="0" class="scrollspy-example">
-                        {% for table in challenge.source_tables.all %}
+                        {% for table in topic.source_tables.all %}
                           <div class="table-responsive">
                                 <table class="table table-striped" id="list-item-{{ forloop.counter }}">
                                     <tr>
@@ -43,6 +43,7 @@
                     </div>
                 </div>
             </div>
+          {% for challenge in topic.challenges.all %}
             <div class="insertion">
               <div class="task">
                   <div class="row">
@@ -87,6 +88,7 @@
                   </div>
               </div>
             </div>
+          {% endfor %}
         </span>
   </div>
 {% endblock %}

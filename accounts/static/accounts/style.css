@@ -25,6 +25,11 @@
     color: #666;
 }
 
-small {
-    font-size: 22px;
+.you {
+    font-size: 14px;
+}
+
+.rank-box {
+    background-color: rgb(234, 236, 239);
+    border-radius: 10px;
 }

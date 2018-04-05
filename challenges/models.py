@@ -8,7 +8,9 @@ from .utils import get_env_db_conn
 
 class ChallengeTopic(models.Model):
     name = models.CharField(max_length=200)
-    description = models.TextField()
+    short_description = models.TextField()
+    long_description = models.TextField()
+    available = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
@@ -27,7 +29,7 @@ class Challenge(models.Model):
         try:
             with get_env_db_conn() as conn:
                 with conn.cursor() as cur:
-                    for source_table in self.source_tables.all():
+                    for source_table in self.topic.source_tables.all():
                         source_table.create_table(cur)
                     cur.execute(sql)
                     result_column_names = [col.name for col in cur.description]
@@ -43,10 +45,10 @@ class Challenge(models.Model):
         return self.name
 
 
-class ChallengeSourceTable(models.Model):
-    challenge = models.ForeignKey(Challenge,
-                                  on_delete=models.CASCADE,
-                                  related_name="source_tables")
+class TopicSourceTable(models.Model):
+    topic = models.ForeignKey(ChallengeTopic,
+                              on_delete=models.CASCADE,
+                              related_name="source_tables")
     name = models.CharField(max_length=200)
     creation_sql = models.TextField()
     column_names_json = models.TextField(default="", editable=False)
@@ -74,7 +76,7 @@ class ChallengeSourceTable(models.Model):
     def save(self, *args, **kwargs):
         old_creation_sql = None
         if self.pk:
-            old_instance = ChallengeSourceTable.objects.get(pk=self.pk)
+            old_instance = TopicSourceTable.objects.get(pk=self.pk)
             old_creation_sql = old_instance.creation_sql
         if self.creation_sql != old_creation_sql:
             with get_env_db_conn() as conn:

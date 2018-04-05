@@ -1,16 +1,18 @@
 import unittest
 
+from django.conf import settings
+
 from selenium import webdriver
 
 
 class AccountTestCase(unittest.TestCase):
 
     def setUp(self):
-        chrome_driver = '/home/mikk/Downloads/chromedriver_linux64/chromedriver'
+        chrome_driver = settings.WEBDRIVER
         self.driver = webdriver.Chrome(chrome_driver)
         self.log_in('mikk125', 'parool125')
-        self.resetVisible()
-        self.turnOffEmailPublic()
+        self.reset_visible()
+        self.turn_off_email_public()
 
     def log_in(self, user, pwd):
         self.driver.get('http://localhost:8000/accounts/login')
@@ -23,19 +25,19 @@ class AccountTestCase(unittest.TestCase):
         form = self.driver.find_element_by_class_name('btn-primary')
         form.submit()
 
-    def resetVisible(self):
+    def reset_visible(self):
         self.driver.get('http://localhost:8000/accounts/mikk125/')
-        checkBox = self.driver.find_element_by_id('id_allow_seen_in_stats')
-        if not checkBox.is_selected():
-            checkBox.click()
+        check_box = self.driver.find_element_by_id('id_allow_seen_in_stats')
+        if not check_box.is_selected():
+            check_box.click()
             button = self.driver.find_element_by_class_name('mt-3')
             button.submit()
 
-    def turnOffEmailPublic(self):
+    def turn_off_email_public(self):
         self.driver.get('http://localhost:8000/accounts/mikk125/')
-        checkBox = self.driver.find_element_by_id('id_is_email_public')
-        if checkBox.is_selected():
-            checkBox.click()
+        check_box = self.driver.find_element_by_id('id_is_email_public')
+        if check_box.is_selected():
+            check_box.click()
             button = self.driver.find_element_by_class_name('mt-3')
             button.submit()
 
@@ -49,8 +51,8 @@ class AccountTestCase(unittest.TestCase):
 
     def test_visibility_in_stats(self):
         self.driver.get('http://localhost:8000/accounts/mikk125/')
-        checkBox = self.driver.find_element_by_id('id_allow_seen_in_stats')
-        checkBox.click()
+        check_box = self.driver.find_element_by_id('id_allow_seen_in_stats')
+        check_box.click()
         button = self.driver.find_element_by_class_name('mt-3')
         button.submit()
         self.driver.get('http://localhost:8000/stats/')
