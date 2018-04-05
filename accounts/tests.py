@@ -10,28 +10,17 @@ class AccountTestCase(unittest.TestCase):
     def setUp(self):
         chrome_driver = settings.WEBDRIVER
         self.driver = webdriver.Chrome(chrome_driver)
-        self.log_in1()
+        self.log_in('mikk125', 'parool125')
         self.reset_visible()
         self.turn_off_email_public()
 
-    def log_in1(self):
+    def log_in(self, user, pwd):
         self.driver.get('http://localhost:8000/accounts/login')
         username = self.driver.find_element_by_id('id_username')
-        username.send_keys('mikk125')
+        username.send_keys(user)
 
         password = self.driver.find_element_by_id('id_password')
-        password.send_keys('parool125')
-
-        form = self.driver.find_element_by_class_name('btn-primary')
-        form.submit()
-
-    def log_in2(self):
-        self.driver.get('http://localhost:8000/accounts/login')
-        username = self.driver.find_element_by_id('id_username')
-        username.send_keys('mikktest')
-
-        password = self.driver.find_element_by_id('id_password')
-        password.send_keys('parooltest')
+        password.send_keys(pwd)
 
         form = self.driver.find_element_by_class_name('btn-primary')
         form.submit()
@@ -72,7 +61,7 @@ class AccountTestCase(unittest.TestCase):
 
     def test_email_public(self):
         self.log_out()
-        self.log_in2()
+        self.log_in('mikktest', 'parooltest')
         self.driver.get('http://localhost:8000/accounts/mikk125/')
         self.assertTrue('Email:' not in self.driver.page_source)
 
