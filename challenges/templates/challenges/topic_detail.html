@@ -6,90 +6,77 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container-fluid">
-        <span class="border">
-            <div class="topped">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div id="list-example" class="list-group text-center">
-                        {% for table in topic.source_tables.all %}
-                          <a class="list-group-item list-group-item-action" href="#list-item-{{ forloop.counter }}">
-                            {{ table.name }}
-                          </a>
+  <div class="container">
+    <div class="mt-5">
+      <nav class="navbar navbar-expand-lg table-nav">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          {% for table in topic.source_tables.all %}
+            <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle disabled" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ table.name }}</a>
+              <div class="dropdown-menu disabled" aria-labelledby="navbarDropdown">
+                <div class="dropdown-table">
+                  <table class="table table-striped" id="list-item-{{ forloop.counter }}">
+                    <tr>
+                      {% for column in table.get_column_names %}
+                        <th>
+                          {{ column }}
+                        </th>
+                      {% endfor %}
+                    </tr>
+                    {% for row in table.get_content_rows %}
+                      <tr>
+                        {% for value in row %}
+                          <td>{{ value }}</td>
                         {% endfor %}
-                        </div>
-                        <div data-spy="scroll" data-target="#list-example" data-offset="0" class="scrollspy-example">
-                        {% for table in topic.source_tables.all %}
-                          <div class="table-responsive">
-                                <table class="table table-striped" id="list-item-{{ forloop.counter }}">
-                                    <tr>
-                                      {% for column in table.get_column_names %}
-                                        <th>
-                                            {{ column }}
-                                        </th>
-                                      {% endfor %}
-                                    </tr>
-                                  {% for row in table.get_content_rows %}
-                                    <tr>
-                                      {% for value in row %}
-                                        <td>{{ value }}</td>
-                                      {% endfor %}
-                                    </tr>
-                                  {% endfor %}
-                                </table>
-                            </div>
-                        {% endfor %}
-                        </div>
-                    </div>
+                      </tr>
+                    {% endfor %}
+                  </table>
                 </div>
-            </div>
-          {% for challenge in topic.challenges.all %}
-            <div class="insertion">
-              <div class="task">
-                  <div class="row">
-                      <div class="col pl-4 pt-2 pb-3">
-                          <code>
-                              {{ challenge.description }}
-                          </code>
-                      </div>
-                  </div>
-                  <div class="row mb-4">
-                      <div class="col">
-                          <div class="highlight" id="editor-{{ challenge.pk }}"></div>
-                      </div>
-                  </div>
-                  <div class="row mt-1">
-                      <div class="col-md-8">
-                          <button type="button" class="btn btn-outline-success checkBtn" data-challenge-id="{{ challenge.pk }}">Check</button>
-                      </div>
-                      <div class="col-md-4">
-                          <div class="alert d-none" id="alert-{{ challenge.pk }}">
-                          </div>
-                      </div>
-                  </div>
-                  <div class="row">
-                      <div class="col-md-12 ml-3 mt-2 form-check">
-                        <label class="form-check-label">
-                          <input class="form-check-input" type="checkbox" id="checkbox-{{ challenge.pk }}">
-                          Show the result table.
-                        </label>
-                      </div>
-                  </div>
-                  <div class="row">
-                      <div class="col-md-12">
-                          <div class="table-responsive">
-                              <table class="table table-striped" id="resultTable-{{ challenge.pk }}">
-                                <caption id="nothingToShowMsg-{{ challenge.pk }}" class="" style="width: 100%; display: block">(nothing to show)</caption>
-                                <tbody id="resultTbody-{{ challenge.pk }}">
-                                </tbody>
-                              </table>
-                          </div>
-                      </div>
-                  </div>
               </div>
-            </div>
+            </li>
           {% endfor %}
-        </span>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    {% for challenge in topic.challenges.all %}
+      <div class="challenge mt-5 animated fadeIn">
+        <div class="row">
+          <div class="col pl-4 pt-2 pb-5">
+            {{ challenge.description }}
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col">
+            <div class="editor" id="editor-{{ challenge.pk }}"></div>
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col-md-8">
+            <button type="button" class="btn btn-outline-success checkBtn" data-challenge-id="{{ challenge.pk }}">Check</button>
+          </div>
+          <div class="col-md-4 mt-5">
+            <div class="alert d-none" id="alert-{{ challenge.pk }}">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-striped" id="resultTable-{{ challenge.pk }}">
+                <caption id="nothingToShowMsg-{{ challenge.pk }}" class="" style="width: 100%; display: block">(no results yet)</caption>
+                <tbody id="resultTbody-{{ challenge.pk }}">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
   </div>
 {% endblock %}
 
