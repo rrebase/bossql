@@ -11,6 +11,10 @@ class ChallengeTopic(models.Model):
     summary = models.TextField()
     description = models.TextField()
     available = models.BooleanField(default=True)
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ["order"]
 
     def __str__(self):
         return self.name
@@ -23,23 +27,57 @@ class Challenge(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
     hints = models.TextField(blank=True)
+    solution_sql = models.TextField()
+    evaluation_sql = models.TextField(blank=True)
     available = models.BooleanField(default=True)
+    order = models.IntegerField(default=0)
 
-    def attempt(self, sql):
+    class Meta:
+        ordering = ["order"]
+
+    def get_query_result(self, sql, fail_silently=True):
+        result_column_names = None
+        result_content_rows = None
         try:
             with get_env_db_conn() as conn:
                 with conn.cursor() as cur:
-                    for source_table in self.topic.source_tables.all():
+                    for source_table in self.topic.source_tables.order_by("creation_order"):
                         source_table.create_table(cur)
                     cur.execute(sql)
+                    if self.evaluation_sql:
+                        cur.execute(self.evaluation_sql)
                     result_column_names = [col.name for col in cur.description]
                     result_content_rows = [list(row) for row in cur.fetchall()]
                 conn.rollback()
         except psycopg2.ProgrammingError:
-            return False, None, None
-        return (result_column_names == json.loads(self.result_table.column_names_json)
-                and result_content_rows == json.loads(self.result_table.content_rows_json),
-                result_column_names, result_content_rows)
+            if not fail_silently:
+                raise
+        return {"column_names": result_column_names, "content_rows": result_content_rows}
+
+    def attempt(self, sql):
+        result = self.get_query_result(sql)
+        return (result["column_names"] == json.loads(self.result_table.column_names_json)
+                and result["content_rows"] == json.loads(self.result_table.content_rows_json),
+                result["column_names"], result["content_rows"])
+
+    def recreate_result_table(self, fail_silently=False):
+        result = self.get_query_result(self.solution_sql, fail_silently)
+        if result["column_names"] and result["content_rows"]:
+            if not hasattr(self, 'result_table'):
+                self.result_table = ChallengeResultTable.objects.create(
+                    challenge=self,
+                    column_names_json=json.dumps(result["column_names"]),
+                    content_rows_json=json.dumps(result["content_rows"])
+                )
+            else:
+                self.result_table.column_names_json = json.dumps(result["column_names"])
+                self.result_table.content_rows_json = json.dumps(result["content_rows"])
+                self.result_table.save()
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.recreate_result_table(fail_silently=False)
+
 
     def __str__(self):
         return self.name
@@ -53,6 +91,11 @@ class TopicSourceTable(models.Model):
     creation_sql = models.TextField()
     column_names_json = models.TextField(default="", editable=False)
     content_rows_json = models.TextField(default="", editable=False)
+    creation_order = models.IntegerField(default=0)
+    order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ["order"]
 
     def create_table(self, cur):
         cur.execute(self.creation_sql)
@@ -83,6 +126,8 @@ class TopicSourceTable(models.Model):
                 with conn.cursor() as cur:
                     self._store_representation(cur)
                 conn.rollback()
+            for challenge in self.topic.challenges.all():
+                challenge.recreate_result_table()
         super().save(*args, **kwargs)
 
     def __str__(self):
