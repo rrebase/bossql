@@ -16,7 +16,7 @@
           {% for table in topic.source_tables.all %}
             <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
-              <div class="nav-link dropdown-toggle disabled" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ table.name }}</div>
+              <div class="nav-link dropdown-toggle disabled" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ table.name }}</div>
               <div class="dropdown-menu disabled" aria-labelledby="navbarDropdown">
                 <div class="dropdown-table">
                   <table class="dropdown- menu disabled table table-striped table-bordered" aria-labelledby="navbarDropdown" id="list-item-{{ forloop.counter }}">
@@ -46,6 +46,11 @@
     {% for challenge in topic.challenges.all %}
       <div class="challenge mt-5 animated fadeIn">
         <div class="row">
+          <div class="col pl-4 pt-2 pb-3">
+            <h4>{{ challenge.name }}</h4>
+          </div>
+        </div>
+        <div class="row">
           <div class="col pl-4 pt-2 pb-5">
             {{ challenge.description }}
           </div>
@@ -55,16 +60,16 @@
             <div class="editor" id="editor-{{ challenge.pk }}"></div>
           </div>
         </div>
-        <div class="row mt-1">
-          <div class="col-md-8">
+        <div class="row checkAlertRow">
+          <div class="col-md-8 checkCol">
             <button type="button" class="btn btn-outline-success checkBtn" data-challenge-id="{{ challenge.pk }}">Check</button>
           </div>
-          <div class="col-md-4 mt-5">
+          <div class="col-md-4 alertCol">
             <div class="alert d-none" id="alert-{{ challenge.pk }}">
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row mt-3">
           <div class="col-md-12">
             <div class="table-responsive">
               <table class="table table-striped table-bordered" id="resultTable-{{ challenge.pk }}">

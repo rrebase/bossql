@@ -38,6 +38,22 @@ code {
     cursor: default;
 }
 
+.checkCol {
+    display: flex;
+    align-items: center;
+}
+
+.alertCol {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.checkAlertRow {
+    min-height: 60px;
+    justify-content: flex-end;
+}
+
 .table-nav {
     border: 3px solid darkgrey;
     border-radius: 10px;

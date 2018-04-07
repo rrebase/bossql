@@ -56,10 +56,10 @@ $(document).ready(function () {
       .then(json => {
         let alertDiv = $('#alert-' + challengeId);
         if (json[0]) {
-          alertDiv.attr('class', 'alert mb-1 alert-success');
+          alertDiv.attr('class', 'alert mb-1 alert-success animated tada');
           alertDiv.html('<strong>Correct!</strong>');
         } else {
-          alertDiv.attr('class', 'alert mb-1 alert-danger');
+          alertDiv.attr('class', 'alert mb-1 alert-danger animated bounceIn');
           alertDiv.html('<strong>Incorrect.</strong>');
         }
         // thanks to: https://www.htmlgoodies.com/beyond/css/working_w_tables_using_jquery.html
