@@ -48,7 +48,7 @@ class Challenge(models.Model):
                         cur.execute(self.evaluation_sql)
                     result_column_names = [col.name for col in cur.description]
                     result_content_rows = [list(row) for row in cur.fetchall()]
-                conn.rollback()
+                    conn.rollback()
         except psycopg2.ProgrammingError:
             if not fail_silently:
                 raise
@@ -97,11 +97,12 @@ class TopicSourceTable(models.Model):
     class Meta:
         ordering = ["order"]
 
-    def create_table(self, cur):
-        cur.execute(self.creation_sql)
-
     def drop_table(self, cur):
-        cur.execute("DROP TABLE {};".format(self.name))
+        cur.execute("DROP TABLE IF EXISTS {};".format(self.name))
+
+    def create_table(self, cur):
+        self.drop_table(cur)
+        cur.execute(self.creation_sql)
 
     def get_column_names(self):
         return json.loads(self.column_names_json)
@@ -125,7 +126,7 @@ class TopicSourceTable(models.Model):
             with get_env_db_conn() as conn:
                 with conn.cursor() as cur:
                     self._store_representation(cur)
-                conn.rollback()
+                    conn.rollback()
             for challenge in self.topic.challenges.all():
                 challenge.recreate_result_table()
         super().save(*args, **kwargs)
