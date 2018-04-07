@@ -8,8 +8,8 @@ from .utils import get_env_db_conn
 
 class ChallengeTopic(models.Model):
     name = models.CharField(max_length=200)
-    short_description = models.TextField()
-    long_description = models.TextField()
+    summary = models.TextField()
+    description = models.TextField()
     available = models.BooleanField(default=True)
 
     def __str__(self):
@@ -22,7 +22,7 @@ class Challenge(models.Model):
                               related_name="challenges")
     name = models.CharField(max_length=200)
     description = models.TextField()
-    additional_info = models.TextField(blank=True)
+    hints = models.TextField(blank=True)
     available = models.BooleanField(default=True)
 
     def attempt(self, sql):

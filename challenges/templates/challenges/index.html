@@ -23,7 +23,7 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">{{ topic.name }}</h5>
-            <p class="card-text">{{ topic.short_description }}</p>
+            <p class="card-text">{{ topic.summary }}</p>
             <a href="{% url 'challenges:topic_detail' topic.pk %}"
                class="btn {% if not topic.available %}disabled btn-outline-dark{% else %}btn-outline-success{% endif %}">Go</a>
           </div>
