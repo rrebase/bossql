@@ -2,7 +2,9 @@ import json
 import psycopg2
 
 from django.db import models
+from django.utils import timezone
 
+from accounts.models import CustomUser
 from .utils import get_env_db_conn
 
 
@@ -54,11 +56,28 @@ class Challenge(models.Model):
                 raise
         return {"column_names": result_column_names, "content_rows": result_content_rows}
 
-    def attempt(self, sql):
+    def attempt(self, sql, user):
         result = self.get_query_result(sql)
-        return (result["column_names"] == json.loads(self.result_table.column_names_json)
-                and result["content_rows"] == json.loads(self.result_table.content_rows_json),
-                result["column_names"], result["content_rows"])
+        is_successful = (result["column_names"] == json.loads(self.result_table.column_names_json)
+                and result["content_rows"] == json.loads(self.result_table.content_rows_json))
+
+        attempt = self.attempts.filter(user=user).first()
+        if not attempt:
+            attempt = ChallengeAttempt(
+                challenge=self,
+                user=user
+            )
+        if sql and sql != attempt.tried_sql and (is_successful or not attempt.is_successful):
+            # Proceed, if a non-empty SQL was provided that is not equal to the last one tried.
+            # Do not overwrite existing successful attempt, unless the new attempt is successful.
+            attempt.tried_sql = sql
+            attempt.is_successful = is_successful
+            attempt.attempted_at = timezone.now()
+            if not is_successful:
+                attempt.fail_count += 1
+            attempt.save()
+
+        return (is_successful, result["column_names"], result["content_rows"])
 
     def recreate_result_table(self, fail_silently=False):
         result = self.get_query_result(self.solution_sql, fail_silently)
@@ -81,6 +100,25 @@ class Challenge(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ChallengeAttempt(models.Model):
+    challenge = models.ForeignKey(Challenge,
+                                  on_delete=models.CASCADE,
+                                  related_name="attempts")
+    user = models.ForeignKey(CustomUser,
+                             on_delete=models.CASCADE,
+                             related_name="challenge_attempts")
+    tried_sql = models.TextField()
+    is_successful = models.BooleanField(default=False)
+    fail_count = models.IntegerField(default=0)
+    attempted_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return "Attempt for challenge '{challenge}' by user '{user}'".format(
+            challenge=self.challenge,
+            user=self.user
+        )
 
 
 class TopicSourceTable(models.Model):
