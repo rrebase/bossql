@@ -1,0 +1,19 @@
+{% extends 'tutorials/index.html' %}
+
+
+{% block tutorial %}
+<div id="content">
+<h1>Constraints</h1><br>
+SQL constraints are used to specify rules for the data in a table.<br>
+Here are the constraints:<br>
+<ul>
+    <li>NOT NULL - Ensures that a column cannot have a NULL value.</li>
+    <li>UNIQUE - Ensures that all values in a column are different.</li>
+    <li>PRIMARY KEY - A combination of a NOT NULL and UNIQUE. Uniquely identifies each row in a table.</li>
+    <li>FOREIGN KEY - Uniquely identifies a row/record in another table.</li>
+    <li>CHECK - Ensures that all values in a column satisfies a specific condition.</li>
+    <li>DEFAULT - Sets a default value for a column when no value is specified.</li>
+    <li>INDEX - Used to create and retrieve data from the database very quickly.</li>
+</ul>
+</div>
+{% endblock %}
