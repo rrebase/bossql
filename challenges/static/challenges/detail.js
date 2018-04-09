@@ -86,14 +86,3 @@ $(document).ready(function () {
       });
   });
 });
-
-$('input[id^=\'checkbox-\']').on('click', function () {
-  let index = $(this).attr('id').split('-')[1];
-  if ($('#resultTable-' + index).is(':visible')) {
-    $('#resultTable-' + index).css('display', 'none');
-    $('#resultTable-' + index).css('visibility', 'hidden');
-  } else {
-    $('#resultTable-' + index).css('display', 'block');
-    $('#resultTable-' + index).css('visibility', 'visible');
-  }
-});

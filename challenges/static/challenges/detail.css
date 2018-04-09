@@ -34,8 +34,8 @@ code {
 .dropdown-table {
     padding: 10px;
     overflow: scroll;
-    max-height: 500px;
-    min-width: 300px;
+    max-height: 270px;
+    min-width: 30vw;
 }
 
 .dropdown {
@@ -71,6 +71,4 @@ code {
 #navbarDropdown {
     font-weight: bold;
     font-size: 20px;
-    padding-bottom: 0;
-    padding-top: 0;
 }
