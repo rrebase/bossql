@@ -8,13 +8,13 @@
 {% block content %}
   <div class="container">
     <div class="mt-5">
-      <nav class="navbar navbar-expand-lg table-nav">
+      <nav class="navbar navbar-light navbar-expand-sm table-nav flex-column">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           {% for table in topic.source_tables.all %}
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav">
             <li class="nav-item dropdown">
               <div class="nav-link dropdown-toggle disabled" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ table.name }}</div>
               <div class="dropdown-menu disabled" aria-labelledby="navbarDropdown">
