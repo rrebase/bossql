@@ -32,5 +32,5 @@ class CheckAttemptEndpoint(View):
         challenge = get_object_or_404(Challenge,
                                       pk=params.get("challengeId", None))
         return HttpResponse(json.dumps(
-            challenge.attempt(params.get("attemptSql", None))
+            challenge.attempt(params.get("attemptSql", None), self.request.user)
         ))

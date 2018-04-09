@@ -57,6 +57,7 @@ $(document).ready(function () {
     });
     editor.renderer.updateFontSize();
     editor.getSession().setUseWrapMode(true);
+    editor.setValue(this.dataset.initialContent, -1);
   });
 
   $('body').on('mouseenter mouseleave', '.dropdown', function (e) {
