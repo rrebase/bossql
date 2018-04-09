@@ -1,10 +1,8 @@
-import unittest
-
+from django.test import TestCase
 from selenium import webdriver
-import sqlite3
 
 
-class AccountTestCase(unittest.TestCase):
+class AccountTestCase(TestCase):
 
     def setUp(self):
         self.driver = webdriver.Chrome()
@@ -25,7 +23,7 @@ class AccountTestCase(unittest.TestCase):
         password2 = self.driver.find_element_by_id('id_password2')
         password2.send_keys(password)
 
-        button = self.driver.find_element_by_class_name('btn-primary')
+        button = self.driver.find_element_by_id('sign_up')
         button.submit()
 
     def log_in(self, user, pwd):
@@ -39,21 +37,21 @@ class AccountTestCase(unittest.TestCase):
         form = self.driver.find_element_by_class_name('btn-primary')
         form.submit()
 
-    def resetVisible(self):
+    def reset_visible(self):
         self.log_in('test1', 'testparool1')
         self.driver.get('http://localhost:8000/accounts/test1/')
-        checkBox = self.driver.find_element_by_id('id_allow_seen_in_stats')
-        if not checkBox.is_selected():
-            checkBox.click()
+        check_box = self.driver.find_element_by_id('id_allow_seen_in_stats')
+        if not check_box.is_selected():
+            check_box.click()
             button = self.driver.find_element_by_class_name('my-4')
             button.submit()
 
-    def turnOffEmailPublic(self):
+    def turn_off_email_public(self):
         self.log_in('test1', 'testparool1')
         self.driver.get('http://localhost:8000/accounts/test1/')
-        checkBox = self.driver.find_element_by_id('id_is_email_public')
-        if checkBox.is_selected():
-            checkBox.click()
+        check_box = self.driver.find_element_by_id('id_is_email_public')
+        if check_box.is_selected():
+            check_box.click()
             button = self.driver.find_element_by_class_name('my-4')
             button.submit()
 
@@ -61,7 +59,7 @@ class AccountTestCase(unittest.TestCase):
         self.driver.get('http://localhost:8000/logout')
 
     def test_email_public(self):
-        self.turnOffEmailPublic()
+        self.turn_off_email_public()
         self.log_out()
         self.log_in('test2', 'testparool2')
         self.driver.get('http://localhost:8000/accounts/test1/')
@@ -79,24 +77,12 @@ class AccountTestCase(unittest.TestCase):
 
     def test_visibility_in_stats(self):
         self.log_out()
-        self.resetVisible()
+        self.reset_visible()
         self.driver.get('http://localhost:8000/accounts/test1/')
-        checkBox = self.driver.find_element_by_id('id_allow_seen_in_stats')
-        checkBox.click()
+        check_box = self.driver.find_element_by_id('id_allow_seen_in_stats')
+        check_box.click()
         button = self.driver.find_element_by_class_name('my-4')
         button.submit()
         self.driver.get('http://localhost:8000/stats/')
         content = self.driver.find_element_by_class_name('table-striped').text
         self.assertFalse('test1' in content)
-
-    def tearDown(self):
-        conn = sqlite3.connect('../db.sqlite3')
-        cur = conn.cursor()
-        query = 'DELETE FROM accounts_customuser WHERE username = ? OR username = ?'
-        cur.execute(query, ('test1', 'test2'))
-        conn.commit()
-        self.driver.close()
-
-
-if __name__ == "__main__":
-    unittest.main()

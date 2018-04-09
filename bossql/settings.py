@@ -142,8 +142,6 @@ ENV_DATABASE = {
     'password': 'bossql'
 }
 
-WEBDRIVER = '/chromedriver_linux64/chromedriver'
-
 # Allow the usage of local_settings.py, which takes precedence
 # over settings.py
 
