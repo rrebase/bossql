@@ -1,3 +1,31 @@
+$.fn.extend({
+  animateCss: function (animationName, callback) {
+    let animationEnd = (function (el) {
+      let animations = {
+        animation: 'animationend',
+        OAnimation: 'oAnimationEnd',
+        MozAnimation: 'mozAnimationEnd',
+        WebkitAnimation: 'webkitAnimationEnd',
+      };
+
+      for (let t in animations) {
+        if (el.style[t] !== undefined) {
+          return animations[t];
+        }
+      }
+    })(document.createElement('div'));
+
+    this.addClass('animated ' + animationName).one(animationEnd, function () {
+      $(this).removeClass('animated ' + animationName);
+
+      if (typeof callback === 'function') callback();
+    });
+
+    return this;
+  },
+});
+
+
 function getCookie(name) {
   let cookieValue = null;
   if (document.cookie && document.cookie !== '') {
@@ -56,10 +84,12 @@ $(document).ready(function () {
       .then(json => {
         let alertDiv = $('#alert-' + challengeId);
         if (json[0]) {
-          alertDiv.attr('class', 'alert mb-1 alert-success animated tada');
+          alertDiv.attr('class', 'alert mb-1 alert-success');
+          alertDiv.animateCss('tada');
           alertDiv.html('<strong>Correct!</strong>');
         } else {
-          alertDiv.attr('class', 'alert mb-1 alert-danger animated bounceIn');
+          alertDiv.attr('class', 'alert mb-1 alert-danger');
+          alertDiv.animateCss('bounceIn');
           alertDiv.html('<strong>Incorrect.</strong>');
         }
         // thanks to: https://www.htmlgoodies.com/beyond/css/working_w_tables_using_jquery.html
