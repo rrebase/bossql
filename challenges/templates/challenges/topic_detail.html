@@ -44,6 +44,13 @@
         </div>
       </nav>
     </div>
+    <div class="row">
+      <div class="col">
+        <h1 class="text-center">{{ topic.name }}</h1>
+        <p class="text-center lead">{{ topic.summary }}</p>
+        <p class="topic-header mt-5">{{ topic.description }}</p>
+      </div>
+    </div>
     {% for challenge in topic.challenges.all %}
       {% with attempt=challenge|get_attempt_for_user:request.user %}
         <div class="challenge mt-5 animated fadeIn">
