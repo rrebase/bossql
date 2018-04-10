@@ -29,6 +29,13 @@ code {
     border-bottom: 1px solid #535c6b;
 }
 
+.topic-alert {
+    width: 70%;
+    padding: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .dropdown:hover > .dropdown-menu {
     display: block;
     margin-top: 0;

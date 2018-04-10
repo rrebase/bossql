@@ -46,6 +46,11 @@
     </div>
     <div class="row">
       <div class="col">
+        {% if not user.is_authenticated %}
+          <div class="topic-alert alert alert-warning text-center mb-5" role="alert">
+            Log in to save your attempts!
+          </div>
+        {% endif %}
         <h1 class="text-center">{{ topic.name }}</h1>
         <p class="text-center lead">{{ topic.summary }}</p>
         <p class="topic-header mt-5">{{ topic.description }}</p>
