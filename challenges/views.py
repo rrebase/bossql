@@ -1,8 +1,10 @@
 import json
 
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
+from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.csrf import requires_csrf_token
 from django.views.generic import DetailView, ListView
 
 from .models import Challenge, ChallengeTopic
@@ -12,12 +14,6 @@ class IndexView(ListView):
     model = ChallengeTopic
     template_name = "challenges/index.html"
     context_object_name = "topics"
-
-
-class DetailView(DetailView):
-    model = Challenge
-    template_name = "challenges/detail.html"
-    context_object_name = "challenge"
 
 
 class TopicDetailView(DetailView):
@@ -32,5 +28,5 @@ class CheckAttemptEndpoint(View):
         challenge = get_object_or_404(Challenge,
                                       pk=params.get("challengeId", None))
         return HttpResponse(json.dumps(
-            challenge.attempt(params.get("attemptSql", None))
+            challenge.attempt(params.get("attemptSql", None), self.request.user)
         ))

@@ -18,18 +18,20 @@
   <br>
   {% if topics %}
     <div class="container">
-      {% for topic in topics %}
-      <div class="col-sm-4">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">{{ topic.name }}</h5>
-            <p class="card-text">{{ topic.summary }}</p>
-            <a href="{% url 'challenges:topic_detail' topic.pk %}"
-               class="btn {% if not topic.available %}disabled btn-outline-dark{% else %}btn-outline-success{% endif %}">Go</a>
+      <div class="row">
+        {% for topic in topics %}
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{ topic.name }}</h5>
+              <p class="card-text">{{ topic.summary }}</p>
+              <a href="{% url 'challenges:topic_detail' topic.pk %}"
+                 class="btn {% if not topic.available %}disabled btn-outline-dark{% else %}btn-outline-success{% endif %}">Go</a>
+            </div>
           </div>
         </div>
+        {% endfor %}
       </div>
-      {% endfor %}
     </div>
   {% else %}
     <p class="text-center">No topics available!</p>
