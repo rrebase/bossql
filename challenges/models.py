@@ -37,7 +37,7 @@ class Challenge(models.Model):
     class Meta:
         ordering = ["order"]
 
-    def get_query_result(self, sql, fail_silently=True):
+    def get_query_result(self, sql, fail_silently=False):
         result_column_names = None
         result_content_rows = None
         try:
