@@ -1,8 +1,10 @@
 import json
 
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
+from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.csrf import requires_csrf_token
 from django.views.generic import DetailView, ListView
 
 from .models import Challenge, ChallengeTopic
@@ -14,12 +16,7 @@ class IndexView(ListView):
     context_object_name = "topics"
 
 
-class DetailView(DetailView):
-    model = Challenge
-    template_name = "challenges/detail.html"
-    context_object_name = "challenge"
-
-
+@method_decorator(requires_csrf_token, name="dispatch")
 class TopicDetailView(DetailView):
     model = ChallengeTopic
     template_name = "challenges/topic_detail.html"

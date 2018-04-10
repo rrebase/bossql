@@ -61,6 +61,9 @@ class Challenge(models.Model):
         is_successful = (result["column_names"] == json.loads(self.result_table.column_names_json)
                 and result["content_rows"] == json.loads(self.result_table.content_rows_json))
 
+        if not user.is_authenticated:
+            return (is_successful, result["column_names"], result["content_rows"])
+
         attempt = self.attempts.filter(user=user).first()
         if not attempt:
             attempt = ChallengeAttempt(

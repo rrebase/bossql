@@ -67,7 +67,6 @@ $(document).ready(function () {
   });
 
   $('.checkBtn').on('click', function (event) {
-    console.log('Checking solution');
     let challengeId = $(event.target).data('challengeId');
     let attemptSql = ace.edit('editor-' + challengeId).getValue();
     fetch('/challenges/check-attempt/', {
