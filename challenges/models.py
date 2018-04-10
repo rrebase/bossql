@@ -59,7 +59,7 @@ class Challenge(models.Model):
     def attempt(self, sql, user):
         result = self.get_query_result(sql)
         is_successful = (result["column_names"] == json.loads(self.result_table.column_names_json)
-                and result["content_rows"] == json.loads(self.result_table.content_rows_json))
+                         and result["content_rows"] == json.loads(self.result_table.content_rows_json))
 
         if not user.is_authenticated:
             return (is_successful, result["column_names"], result["content_rows"])
@@ -74,13 +74,16 @@ class Challenge(models.Model):
             # Proceed, if a non-empty SQL was provided that is not equal to the last one tried.
             # Do not overwrite existing successful attempt, unless the new attempt is successful.
             attempt.tried_sql = sql
-            attempt.is_successful = is_successful
             attempt.attempted_at = timezone.now()
-            if not is_successful:
+            if not attempt.is_successful and is_successful:
+                user.completed_challenges += 1
+                user.save()
+            elif not is_successful:
                 attempt.fail_count += 1
+            attempt.is_successful = is_successful
             attempt.save()
 
-        return (is_successful, result["column_names"], result["content_rows"])
+        return is_successful, result["column_names"], result["content_rows"]
 
     def recreate_result_table(self, fail_silently=False):
         result = self.get_query_result(self.solution_sql, fail_silently)
@@ -99,7 +102,6 @@ class Challenge(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         self.recreate_result_table(fail_silently=False)
-
 
     def __str__(self):
         return self.name

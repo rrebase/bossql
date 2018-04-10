@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load stats_utils %}
 
 {% block styles %}
   <link rel="stylesheet" href="{% static 'stats/style.css' %}">
@@ -33,7 +34,9 @@
       {% for usr in users %}
         <tr>
           <th scope="row">{{ forloop.counter }}</th>
-          <td><a {% if user.username == usr.username %}class="stats-user"{% endif %} href="{% url 'accounts:profile' username=usr.username %}">{{ usr.username }}</a><br></td>
+          <td>
+            <a {% if user.username == usr.username %}class="stats-user"{% endif %} href="{% url 'accounts:profile' username=usr.username %}">{{ usr.username }}</a><br>
+          </td>
           <td>{{ usr.completed_challenges }}<br></td>
         </tr>
       {% endfor %}

@@ -1,6 +1,13 @@
 from django.shortcuts import render
+from django.views.generic import ListView
 
 from accounts.models import CustomUser
+
+
+class StatsView(ListView):
+    model = CustomUser
+    template_name = "stats/index.html"
+    context_object_name = "users"
 
 
 def index(request):

@@ -16,7 +16,6 @@ class IndexView(ListView):
     context_object_name = "topics"
 
 
-@method_decorator(requires_csrf_token, name="dispatch")
 class TopicDetailView(DetailView):
     model = ChallengeTopic
     template_name = "challenges/topic_detail.html"
