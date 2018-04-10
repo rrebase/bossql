@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'accounts/style.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="container account-form">
+    <h1 class="mb-5 text-center">Login page!</h1>
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="id_username">Username or Email</label>
+        {{ form.username }}
+      </div>
+      <div class="form-group">
+        <label for="id_username">Password</label>
+        {{ form.password }}
+      </div>
+      <button type="submit" class="btn btn-primary">Log in</button>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,35 @@
+.account-form {
+    text-align: left;
+    margin-top: 100px;
+    max-width: 450px;
+}
+
+.error-msg {
+    color: red;
+    font-size: 12px;
+}
+
+.profile-username {
+    font-weight: 500;
+    font-size: 70px;
+}
+
+.rank {
+    width: 150px;
+    height: 150px;
+    padding: 40px 10px;
+    font-size: 40px;
+    border-radius: 10px;
+    text-align: center;
+    border: 2px solid #666;
+    color: #666;
+}
+
+.you {
+    font-size: 14px;
+}
+
+.rank-box {
+    background-color: rgb(234, 236, 239);
+    border-radius: 10px;
+}

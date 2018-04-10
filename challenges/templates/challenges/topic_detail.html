@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load static %}
+{% load challenge_utils %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'challenges/detail.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="mt-5">
+      <nav class="navbar navbar-light navbar-expand-sm table-nav flex-column">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          {% for table in topic.source_tables.all %}
+            <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <div class="nav-link dropdown-toggle disabled" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ table.name }}</div>
+              <div class="dropdown-menu disabled" aria-labelledby="navbarDropdown">
+                <div class="dropdown-table">
+                  <table class="dropdown- menu disabled table table-striped table-bordered" aria-labelledby="navbarDropdown" id="list-item-{{ forloop.counter }}">
+                    <tr>
+                      {% for column in table.get_column_names %}
+                        <th>
+                          {{ column }}
+                        </th>
+                      {% endfor %}
+                    </tr>
+                    {% for row in table.get_content_rows %}
+                      <tr>
+                        {% for value in row %}
+                          <td>{{ value }}</td>
+                        {% endfor %}
+                      </tr>
+                    {% endfor %}
+                  </table>
+                </div>
+              </div>
+            </li>
+          {% endfor %}
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="row">
+      <div class="col">
+        {% if not user.is_authenticated %}
+          <div class="topic-alert alert alert-warning text-center mb-5" role="alert">
+            Log in to save your attempts!
+          </div>
+        {% endif %}
+        <h1 class="text-center">{{ topic.name }}</h1>
+        <p class="text-center lead">{{ topic.summary }}</p>
+        <p class="topic-header mt-5">{{ topic.description }}</p>
+      </div>
+    </div>
+    {% for challenge in topic.challenges.all %}
+      {% with attempt=challenge|get_attempt_for_user:request.user %}
+        <div class="challenge mt-5 animated fadeIn">
+          <div class="row">
+            <div class="col pl-4 pt-2 pb-3">
+              <h4>{{ challenge.name }}</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col pl-4 pt-2 pb-5">
+              {{ challenge.description }}
+            </div>
+          </div>
+          <div class="row mb-4">
+            <div class="col">
+              <div class="editor" id="editor-{{ challenge.pk }}" data-initial-content="{% if attempt %}{{ attempt.tried_sql }}{% endif %}"></div>
+            </div>
+          </div>
+          <div class="row checkAlertRow">
+            <div class="col-md-8 checkCol">
+              <button type="button" class="btn btn-outline-success checkBtn" data-challenge-id="{{ challenge.pk }}">Check</button>
+            </div>
+            <div class="col-md-4 alertCol">
+              {% if not attempt %}
+                <div class="alert d-none" id="alert-{{ challenge.pk }}">
+                </div>
+              {% elif attempt.is_successful %}
+                <div class="alert alert-success" id="alert-{{ challenge.pk }}">
+                  <strong>Correct</strong>
+                </div>
+              {% else %}
+                <div class="alert alert-danger" id="alert-{{ challenge.pk }}">
+                  <strong>Incorrect</strong>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-striped table-bordered" id="resultTable-{{ challenge.pk }}">
+                  <caption id="nothingToShowMsg-{{ challenge.pk }}" class="" style="width: 100%; display: block">(no results yet)</caption>
+                  <tbody id="resultTbody-{{ challenge.pk }}">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endwith %}
+    {% endfor %}
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js"></script>
+  <script type="text/javascript" src="{% static 'challenges/detail.js' %}"></script>
+{% endblock %}

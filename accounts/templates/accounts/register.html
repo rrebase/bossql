@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{% static 'accounts/style.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div class="container account-form">
+    <h1 class="mb-5 text-center">Register page!</h1>
+    <form method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="id_username">Username</label>
+        {{ form.username }}
+        {% if form.username.errors %}
+          <script>document.getElementById("id_username").classList.add('is-invalid');</script>
+        {% endif %}
+        {% for error in form.username.errors %}
+          <p class="error-msg mt-1">
+            <strong>{{ error|escape }}</strong>
+          </p>
+        {% endfor %}
+      </div>
+      <div class="form-group">
+        <label for="id_username">Email</label>
+        {{ form.email }}
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        {% if form.email.errors %}
+          <script>document.getElementById("id_email").classList.add('is-invalid');</script>
+        {% endif %}
+        {% for error in form.email.errors %}
+          <p class="error-msg mt-1">
+            <strong>{{ error|escape }}</strong>
+          </p>
+        {% endfor %}
+      </div>
+      <div class="form-group">
+        <label for="id_password1">Password</label>
+        {{ form.password1 }}
+        {% if form.password1.errors %}
+          <script>
+              document.getElementById("id_password1").classList.add('is-invalid');
+              document.getElementById("id_password2").classList.add('is-invalid');
+          </script>
+        {% endif %}
+        {% for error in form.password1.errors %}
+          <p class="error-msg mt-1">
+            <strong>{{ error|escape }}</strong>
+          </p>
+        {% endfor %}
+      </div>
+      <div class="form-group">
+        <label for="id_password2">Confirm password</label>
+        {{ form.password2 }}
+        {% if form.password2.errors %}
+          <script>
+              document.getElementById("id_password1").classList.add('is-invalid');
+              document.getElementById("id_password2").classList.add('is-invalid');
+          </script>
+        {% endif %}
+        {% for error in form.password2.errors %}
+          <p class="error-msg mt-1">
+            <strong>{{ error|escape }}</strong>
+          </p>
+        {% endfor %}
+      </div>
+      <button type="submit" class="btn btn-primary" id="sign_up">Sign up</button>
+    </form>
+  </div>
+{% endblock %}
