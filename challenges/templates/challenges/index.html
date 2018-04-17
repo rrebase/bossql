@@ -2,14 +2,14 @@
 {% load static %}
 
 {% block styles %}
-  <link rel="stylesheet" href="{% static 'challenges/style.css' %}">
+  <link rel="stylesheet" href="{% static 'challenges/css/style.css' %}">
 {% endblock %}
 
 {% block content %}
   <div class="jumbotron ng-scope">
     <div class="container">
       <h1 class="jumbo-header">bossql</h1>
-      <p class="jumbo-parag">Learn SQL through challenges.</p>
+      <p class="jumbo-parag hello">Learn SQL through challenges.</p>
       <p>
         <a href="{% url 'tutorials:index' %}" class="btn btn-outline-info btn-large">Tutorials »</a>
       </p>
