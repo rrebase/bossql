@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.template.loader import render_to_string
 
 from .models import Challenge, ChallengeAttempt, ChallengeResultTable, TopicSourceTable, ChallengeTopic
 
@@ -6,6 +7,14 @@ from .models import Challenge, ChallengeAttempt, ChallengeResultTable, TopicSour
 @admin.register(Challenge)
 class ChallengeAdmin(admin.ModelAdmin):
     list_display = ("name", "topic")
+    readonly_fields = ("source_tables",)
+    fields = ("topic", "name", "description", "hints", "source_tables", "solution_sql", "evaluation_sql")
+
+    def source_tables(self, instance):
+        source_tables = instance.topic.source_tables.all()
+        return render_to_string("challenges/_admin_challenge_source_tables.html",
+                                {"tables": source_tables})
+
 
 @admin.register(ChallengeAttempt)
 class ChallengeAttemptAdmin(admin.ModelAdmin):
@@ -16,10 +25,13 @@ class ChallengeAttemptAdmin(admin.ModelAdmin):
     get_topic.short_description = "Topic"
     get_topic.admin_order_field = "challenge__topic"
 
+
 admin.site.register(ChallengeTopic)
+
 
 @admin.register(TopicSourceTable)
 class TopicSourceTableAdmin(admin.ModelAdmin):
     list_display = ("name", "topic")
+
 
 admin.site.register(ChallengeResultTable)

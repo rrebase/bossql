@@ -1,0 +1,19 @@
+<div style="display: flex; align-items: flex-start; flex-wrap: wrap;">
+  {% for table in tables %}
+    <table style="margin-right: 10px; margin-bottom: 10px">
+      <caption style="text-transform: none">{{ table.name }}</caption>
+      <tr>
+        {% for column_name in table.get_column_names %}
+          <th>{{ column_name }}</th>
+        {% endfor %}
+      </tr>
+      {% for row in table.get_content_rows %}
+        <tr>
+          {% for value in row %}
+            <td>{{ value }}</td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </table>
+  {% endfor %}
+</div>
