@@ -57,7 +57,7 @@ class Challenge(models.Model):
         return {"column_names": result_column_names, "content_rows": result_content_rows}
 
     def attempt(self, sql, user):
-        result = self.get_query_result(sql)
+        result = self.get_query_result(sql, fail_silently=True)
         is_successful = (result["column_names"] == json.loads(self.result_table.column_names_json)
                          and result["content_rows"] == json.loads(self.result_table.content_rows_json))
 
