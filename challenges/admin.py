@@ -10,9 +10,12 @@ class ChallengeAdmin(admin.ModelAdmin):
     readonly_fields = ("source_tables",)
     fields = ("topic", "name", "description", "hints", "source_tables", "solution_sql", "evaluation_sql")
 
+    class Media:
+        js = ("challenges/js/admin_challenge.js",)
+
     def source_tables(self, instance):
         source_tables = instance.topic.source_tables.all()
-        return render_to_string("challenges/_admin_challenge_source_tables.html",
+        return render_to_string("challenges/_admin_topic_source_tables.html",
                                 {"tables": source_tables})
 
 
