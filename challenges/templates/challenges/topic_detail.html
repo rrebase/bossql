@@ -2,6 +2,8 @@
 {% load static %}
 {% load challenge_utils %}
 
+{% block title %}{{ topic.name }}{% endblock %}
+
 {% block styles %}
   <link rel="stylesheet" href="{% static 'challenges/css/detail.css' %}">
 {% endblock %}
