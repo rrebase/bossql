@@ -18,20 +18,20 @@
         <th scope="col" style="width: 100px">#</th>
         <th scope="col"><a
             href="?order_by={% if request.GET.order_by == 'username' %}-{% endif %}username">Username
-          {% if 'username' in request.GET.order_by %}
+          {% if 'username' in request.GET.order_by and 'completed_challenges' not in request.GET.order_by and 'score' not in request.GET.order_by %}
             <div class="arrow-{% if request.GET.order_by != 'username' %}up{% else %}down{% endif %} ml-2 mb-1"></div>
           {% endif %}
         </a></th>
         <th scope="col" style="width: 250px"><a
             href="?order_by={% if request.GET.order_by == 'completed_challenges' %}-{% endif %}completed_challenges">Challenges completed
-          {% if 'username' not in request.GET.order_by or not request.GET.order_by %}
-            <!--<div class="arrow-{% if request.GET.order_by == 'completed_challenges' %}up{% else %}down{% endif %} ml-2 mb-1"></div>-->
+          {% if 'completed_challenges' in request.GET.order_by and 'username' not in request.GET.order_by and 'score' not in request.GET.order_by %}
+            <div class="arrow-{% if request.GET.order_by == 'completed_challenges' %}up{% else %}down{% endif %} ml-2 mb-1"></div>
           {% endif %}
         </a>
         </th>
         <th scope="col" style="width: 250px"><a
             href="?order_by={% if request.GET.order_by == 'score' %}-{% endif %}score">Score
-          {% if 'username' not in request.GET.order_by or not request.GET.order_by %}
+          {% if 'score' in request.GET.order_by and 'completed_challenges' not in request.GET.order_by and 'username' not in request.GET.order_by or not request.GET.order_by %}
             <div class="arrow-{% if request.GET.order_by == 'score' %}up{% else %}down{% endif %} ml-2 mb-1"></div>
           {% endif %}
         </a>
