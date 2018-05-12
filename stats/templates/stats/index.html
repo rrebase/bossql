@@ -23,7 +23,14 @@
         <th scope="col" style="width: 250px"><a
             href="?order_by={% if request.GET.order_by == 'completed_challenges' %}-{% endif %}completed_challenges">Challenges completed
           {% if 'username' not in request.GET.order_by or not request.GET.order_by %}
-            <div class="arrow-{% if request.GET.order_by == 'completed_challenges' %}up{% else %}down{% endif %} ml-2 mb-1"></div>
+            <!--<div class="arrow-{% if request.GET.order_by == 'completed_challenges' %}up{% else %}down{% endif %} ml-2 mb-1"></div>-->
+          {% endif %}
+        </a>
+        </th>
+        <th scope="col" style="width: 250px"><a
+            href="?order_by={% if request.GET.order_by == 'score' %}-{% endif %}score">Score
+          {% if 'username' not in request.GET.order_by or not request.GET.order_by %}
+            <div class="arrow-{% if request.GET.order_by == 'score' %}up{% else %}down{% endif %} ml-2 mb-1"></div>
           {% endif %}
         </a>
         </th>
@@ -37,6 +44,7 @@
             <a {% if user.username == usr.username %}class="stats-user"{% endif %} href="{% url 'accounts:profile' username=usr.username %}">{{ usr.username }}</a><br>
           </td>
           <td>{{ usr.completed_challenges }}<br></td>
+          <td>{{ usr.score }}<br></td>
         </tr>
       {% endfor %}
       </tbody>
