@@ -1,6 +1,7 @@
 import json
 import psycopg2
 
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 
@@ -62,7 +63,7 @@ class Challenge(models.Model):
                          and result["content_rows"] == json.loads(self.result_table.content_rows_json))
 
         if not user.is_authenticated:
-            return (is_successful, result["column_names"], result["content_rows"])
+            return is_successful, result["column_names"], result["content_rows"]
 
         attempt = self.attempts.filter(user=user).first()
         if not attempt:
@@ -98,6 +99,15 @@ class Challenge(models.Model):
                 self.result_table.column_names_json = json.dumps(result["column_names"])
                 self.result_table.content_rows_json = json.dumps(result["content_rows"])
                 self.result_table.save()
+
+    def clean(self):
+        super().clean()
+        try:
+            self.recreate_result_table(fail_silently=False)
+        except (psycopg2.Error, psycopg2.Warning) as e:
+            raise ValidationError({
+                "solution_sql": str(e)
+            })
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -153,14 +163,7 @@ class TopicSourceTable(models.Model):
     def get_content_rows(self):
         return json.loads(self.content_rows_json)
 
-    def _store_representation(self, cur):
-        self.create_table(cur)
-        cur.execute("SELECT * FROM {};".format(self.name))
-        column_names = [column.name for column in cur.description]
-        self.column_names_json = json.dumps(column_names)
-        self.content_rows_json = json.dumps(cur.fetchall())
-
-    def save(self, *args, **kwargs):
+    def _store_representation(self):
         old_creation_sql = None
         if self.pk:
             old_instance = TopicSourceTable.objects.get(pk=self.pk)
@@ -168,11 +171,22 @@ class TopicSourceTable(models.Model):
         if self.creation_sql != old_creation_sql:
             with get_env_db_conn() as conn:
                 with conn.cursor() as cur:
-                    self._store_representation(cur)
+                    self.create_table(cur)
+                    cur.execute("SELECT * FROM {};".format(self.name))
+                    column_names = [column.name for column in cur.description]
+                    self.column_names_json = json.dumps(column_names)
+                    self.content_rows_json = json.dumps(cur.fetchall())
                     conn.rollback()
             for challenge in self.topic.challenges.all():
                 challenge.recreate_result_table()
-        super().save(*args, **kwargs)
+
+    def clean(self):
+        try:
+            self._store_representation()
+        except (psycopg2.Error, psycopg2.Warning) as e:
+            raise ValidationError({
+                "creation_sql": str(e)
+            })
 
     def __str__(self):
         return self.name
