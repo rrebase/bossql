@@ -134,8 +134,6 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
-GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-108996728-2'
-
 # Challenges environment db settings
 
 ENV_DATABASE = {
