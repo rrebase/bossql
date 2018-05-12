@@ -30,6 +30,7 @@ class Challenge(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
     hints = models.TextField(blank=True)
+    points = models.PositiveIntegerField(default=10)
     solution_sql = models.TextField()
     evaluation_sql = models.TextField(blank=True)
     available = models.BooleanField(default=True)
@@ -77,6 +78,7 @@ class Challenge(models.Model):
             attempt.tried_sql = sql
             attempt.attempted_at = timezone.now()
             if not attempt.is_successful and is_successful:
+                user.score += self.points
                 user.completed_challenges += 1
                 user.save()
             elif not is_successful:

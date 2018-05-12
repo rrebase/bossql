@@ -8,7 +8,7 @@ from .models import Challenge, ChallengeAttempt, ChallengeResultTable, TopicSour
 class ChallengeAdmin(admin.ModelAdmin):
     list_display = ("name", "topic")
     readonly_fields = ("source_tables",)
-    fields = ("topic", "name", "description", "hints", "source_tables", "solution_sql", "evaluation_sql")
+    fields = ("topic", "name", "description", "hints", "points", "source_tables", "solution_sql", "evaluation_sql")
 
     class Media:
         js = ("challenges/js/admin_challenge.js",)
