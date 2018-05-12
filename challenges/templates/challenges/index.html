@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load index_utils %}
 
 {% block title %}Challenges{% endblock %}
 
@@ -13,7 +14,7 @@
       <h1 class="jumbo-header">bossql</h1>
       <p class="jumbo-parag hello">Learn SQL through challenges.</p>
       <p>
-        <a href="{% url 'tutorials:index' %}" class="btn btn-outline-info btn-large">Tutorials »</a>
+        <a href="{% url 'challenges:topic_detail' pk=1 %}" class="btn btn-outline-info btn-large">First challenge »</a>
       </p>
     </div>
   </div>
@@ -22,16 +23,27 @@
     <div class="container">
       <div class="row">
         {% for topic in topics %}
-        <div class="col-sm-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">{{ topic.name }}</h5>
-              <p class="card-text">{{ topic.summary }}</p>
-              <a href="{% url 'challenges:topic_detail' topic.pk %}"
-                 class="btn {% if not topic.available %}disabled btn-outline-dark{% else %}btn-outline-success{% endif %}">Go</a>
+          <div class="col-sm-4 mb-4">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title align-center">{{ topic.name }} <span class="badge badge-secondary">{{ topic.challenges.count }}</span></h5>
+                <p class="card-text">{{ topic.summary }}</p>
+              </div>
+              <div class="ml-4">
+              </div>
+              <div class="c-footer mt-0">
+                {% if request.user.is_authenticated %}
+                  <div class="progress mb-3">
+                    {% with solve_percent=topic|get_solved_percent_for_user:request.user %}
+                      <div class="progress-bar bg-success progress-bar-striped" role="progressbar" style="width: {{ solve_percent }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    {% endwith %}
+                  </div>
+                {% endif %}
+                <a href="{% url 'challenges:topic_detail' topic.pk %}"
+                   class="btn align-bottom {% if not topic.available %}disabled btn-outline-dark{% else %}btn-outline-success{% endif %}">Go</a>
+              </div>
             </div>
           </div>
-        </div>
         {% endfor %}
       </div>
     </div>

@@ -34,6 +34,7 @@ class TopicDetailView(DetailView):
 
 
 class CheckAttemptEndpoint(View):
+
     def post(self, request, *args, **kwargs):
         params = json.loads(request.body.decode('UTF-8'))
         challenge = get_object_or_404(Challenge,
