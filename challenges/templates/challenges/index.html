@@ -32,15 +32,16 @@
               <div class="ml-4">
               </div>
               <div class="c-footer mt-0">
-                <div class="progress mb-3">
-                  {% with solve_percent=topic|get_solved_percent_for_user:request.user %}
-                    <div class="progress-bar bg-success progress-bar-striped" role="progressbar" style="width: {{ solve_percent }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                  {% endwith %}
-                </div>
+                {% if request.user.is_authenticated %}
+                  <div class="progress mb-3">
+                    {% with solve_percent=topic|get_solved_percent_for_user:request.user %}
+                      <div class="progress-bar bg-success progress-bar-striped" role="progressbar" style="width: {{ solve_percent }}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    {% endwith %}
+                  </div>
+                {% endif %}
                 <a href="{% url 'challenges:topic_detail' topic.pk %}"
                    class="btn align-bottom {% if not topic.available %}disabled btn-outline-dark{% else %}btn-outline-success{% endif %}">Go</a>
               </div>
-
             </div>
           </div>
         {% endfor %}
