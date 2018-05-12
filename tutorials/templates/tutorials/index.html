@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block description %}
+{% block seo %}
   <meta name="description" content="bossql - Learn SQL through challenges.
   Tutorials for SELECT, INSERT, UPDATE, CREATE, CONSTRAINTS and much more.">
 {% endblock %}
@@ -9,46 +9,46 @@
 {% block title %}Tutorials{% endblock %}
 
 {% block styles %}
-<link rel="stylesheet" href="{% static 'tutorials/style.css' %}">
+  <link rel="stylesheet" href="{% static 'tutorials/style.css' %}">
 {% endblock %}
 
 {% block nav_active_tutorials %}active{% endblock %}
 
 {% block content %}
-<div class="container-fluid mt-5 pt-5">
+  <div class="container-fluid mt-5 pt-5">
     <div class="row">
-        <div class="col-12 col-md-3 col-xl-2">
-            <form class="px-2 pb-3">
-                <input type="search" class="form-control" id="searchTutorials" placeholder="Search..."
-                       style="margin-bottom: 5%">
-            </form>
-            <ul class="nav flex-column links">
-                <li class="nav-item">
-                    <a class="nav-link text-muted   " href="./introduction">Introduction</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-muted" href="./select">Select</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-muted" href="./insert">Insert</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-muted" href="./update">Update</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-muted" href="./create">Create</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-muted" href="./constraints">Constraints</a>
-                </li>
-            </ul>
-        </div>
-        <main class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5">
-            {% block tutorial %}{% endblock %}
-        </main>
+      <div class="col-12 col-md-3 col-xl-2">
+        <form class="px-2 pb-3">
+          <input type="search" class="form-control" id="searchTutorials" placeholder="Search..."
+                 style="margin-bottom: 5%">
+        </form>
+        <ul class="nav flex-column links">
+          <li class="nav-item">
+            <a class="nav-link text-muted   " href="./introduction">Introduction</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-muted" href="./select">Select</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-muted" href="./insert">Insert</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-muted" href="./update">Update</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-muted" href="./create">Create</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-muted" href="./constraints">Constraints</a>
+          </li>
+        </ul>
+      </div>
+      <main class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5">
+        {% block tutorial %}{% endblock %}
+      </main>
     </div>
-</div>
+  </div>
 {% endblock %}
 {% block scripts %}
-    <script src="{% static 'tutorials/js.js' %}"></script>
+  <script src="{% static 'tutorials/js.js' %}"></script>
 {% endblock %}
