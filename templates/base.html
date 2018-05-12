@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>bossql</title>
+  <title>bossql: {% block title %}{% endblock %}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" integrity="sha384-OHBBOqpYHNsIqQy8hL1U+8OXf9hH6QRxi0+EODezv82DfnZoV7qoHAZDwMwEJvSw" crossorigin="anonymous">
@@ -33,7 +33,7 @@
       {% if user.is_authenticated %}
         <a class="btn btn-outline-success mr-sm-2 my-sm-0" href="{% url 'logout' %}">Log out</a>
       {% else %}
-        <a class="btn btn-outline-success mr-sm-2 my-sm-0" href="{% url 'accounts:login' %}">Log in</a>
+        <a class="btn btn-outline-success mr-sm-2 my-sm-0" href="{% url 'accounts:login' %}">Login</a>
         <a class="btn btn-outline-success mr-sm-2 my-sm-0" href="{% url 'accounts:register' %}">Register</a>
       {% endif %}
     </div>
