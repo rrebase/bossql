@@ -26,6 +26,7 @@
             {% if user.username == customuser.username %}
               <small class="text-muted you">(you)</small>
             {% endif %}</h1>
+          <p>Score: {{ customuser.score }}</p>
           <p>Challenges completed: {{ customuser.completed_challenges }}</p>
           {% if user.username == customuser.username or customuser.is_email_public %}
             <p>Email: {{ customuser.email }}</p>

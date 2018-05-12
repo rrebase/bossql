@@ -29,6 +29,7 @@ class CustomUser(AbstractUser):
     )
     email = models.EmailField('email address', blank=True, unique=True)
     completed_challenges = models.IntegerField(default=0)
+    score = models.PositiveIntegerField(default=0)
     allow_seen_in_stats = models.BooleanField(default=True)
     is_email_public = models.BooleanField(default=False)
 

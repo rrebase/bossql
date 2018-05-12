@@ -10,6 +10,16 @@ from django.views.generic import DetailView, ListView
 from .models import Challenge, ChallengeTopic
 
 
+class AdminTopicSourceTablesView(DetailView):
+    model = ChallengeTopic
+    template_name = "challenges/_admin_topic_source_tables.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["tables"] = self.get_object().source_tables.all()
+        return context
+
+
 class IndexView(ListView):
     model = ChallengeTopic
     template_name = "challenges/index.html"
@@ -24,6 +34,7 @@ class TopicDetailView(DetailView):
 
 
 class CheckAttemptEndpoint(View):
+
     def post(self, request, *args, **kwargs):
         params = json.loads(request.body.decode('UTF-8'))
         challenge = get_object_or_404(Challenge,
