@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block description %}
+  <meta name="description" content="bossql - Learn SQL through challenges.
+  Profile view of {{ customuser.username }}.">
+{% endblock %}
+
 {% block title %}Profile - {{ customuser.username }}{% endblock %}
 
 {% block styles %}

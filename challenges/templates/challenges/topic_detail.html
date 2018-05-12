@@ -2,6 +2,11 @@
 {% load static %}
 {% load challenge_utils %}
 
+{% block description %}
+  <meta name="description" content="bossql - Learn SQL through challenges.
+   Challenges of topic: {{ topic.name }}.">
+{% endblock %}
+
 {% block title %}{{ topic.name }}{% endblock %}
 
 {% block styles %}
