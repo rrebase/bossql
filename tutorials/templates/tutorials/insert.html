@@ -2,15 +2,15 @@
 
 
 {% block tutorial %}
-<div id="content">
-<h1>Insert</h1><br>
-Insert clause is a clause in SQL used to insert record into a database.<br>
-The standard format of insert clause is the following:<br>
-<pre><code><b>INSERT INTO table name (column names) VALUES (values);</b></code></pre><br>
-An example of a INSERT clause:<br><br>
-<pre><code>INSERT INTO Workers (firstname, lastname, age) VALUES ('Bob', 'Michaelson', 25);</code></pre>
-With this query,
-we insert new record into Workers table,
-which firstname will be Bob, lastname will be Michaelson and age will be 25.
-</div>
+  <div id="content">
+    <h1>Insert</h1><br>
+    Insert clause is a clause in SQL used to insert record into a database.<br>
+    The standard format of insert clause is the following:<br>
+    <b>INSERT INTO table name (column names) VALUES (values);</b><br>
+    An example of a INSERT clause:<br><br>
+    <pre>INSERT INTO Workers (firstname, lastname, age) VALUES ('Bob', 'Michaelson', 25);</pre>
+    With this query,
+    we insert new record into Workers table,
+    which firstname will be Bob, lastname will be Michaelson and age will be 25.
+  </div>
 {% endblock %}

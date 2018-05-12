@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin, auth
+from django.http import HttpResponse
 from django.urls import include, path
 from django.contrib.auth import views
 import django.contrib.auth.urls
@@ -27,6 +28,7 @@ urlpatterns = [
     path("stats/", include("stats.urls")),
     path("about/", include("about.urls")),
     path("challenges/", include("challenges.urls")),
-    path("admin/", admin.site.urls),
+    path("backdoor/", admin.site.urls),
     path('logout/', django.contrib.auth.views.LogoutView.as_view(), name='logout'),
+    path('robots.txt', lambda x: HttpResponse("User-Agent: *\nDisallow:", content_type="text/plain"), name="robots_file"),
 ]
