@@ -2,8 +2,15 @@
 {% load static %}
 {% load challenge_utils %}
 
+{% block seo %}
+  <meta name="description" content="bossql - Learn SQL through challenges.
+   Challenges of topic: {{ topic.name }}.">
+{% endblock %}
+
+{% block title %}{{ topic.name }}{% endblock %}
+
 {% block styles %}
-  <link rel="stylesheet" href="{% static 'challenges/detail.css' %}">
+  <link rel="stylesheet" href="{% static 'challenges/css/detail.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -61,7 +68,7 @@
         <div class="challenge mt-5 animated fadeIn">
           <div class="row">
             <div class="col pl-4 pt-2 pb-3">
-              <h4>{{ challenge.name }}</h4>
+              <h4>{{ challenge.name }} ({{ challenge.points }}p)</h4>
             </div>
           </div>
           <div class="row">
@@ -112,5 +119,5 @@
 
 {% block scripts %}
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js"></script>
-  <script type="text/javascript" src="{% static 'challenges/detail.js' %}"></script>
+  <script type="text/javascript" src="{% static 'challenges/js/detail.js' %}"></script>
 {% endblock %}

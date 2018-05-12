@@ -2,7 +2,7 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium.webdriver.chrome.webdriver import WebDriver
 
 
-class MySeleniumTests(StaticLiveServerTestCase):
+class AccountsSeleniumTests(StaticLiveServerTestCase):
     selenium = None
 
     @classmethod

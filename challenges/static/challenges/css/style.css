@@ -1,5 +1,5 @@
 .jumbo-header {
-    margin-top: 3%;
+    margin-top: 40px;
 }
 
 .jumbo-parag {
@@ -15,4 +15,19 @@
 
 footer {
     clear: both;
+}
+
+.c-footer {
+    padding: 0 1.25rem 1.25rem 1.25rem;
+}
+
+h5 {
+    position: relative;
+}
+
+h5 span {
+    font-size: 0.5em;
+    bottom: 0.05em;
+    position: absolute;
+    right: 0;
 }

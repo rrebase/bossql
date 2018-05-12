@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block seo %}
+  <meta name="description" content="bossql - Learn SQL through challenges.
+  Login to account and become the boss of SQL.">
+{% endblock %}
+
+{% block title %}Login{% endblock %}
+
 {% block styles %}
   <link rel="stylesheet" href="{% static 'accounts/style.css' %}">
 {% endblock %}

@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block seo %}
+  <meta name="description" content="bossql - Learn SQL through challenges.
+  Views stats of all users, their number of completed challenges and total score.">
+{% endblock %}
+
+{% block title %}Stats{% endblock %}
+
 {% block styles %}
   <link rel="stylesheet" href="{% static 'stats/style.css' %}">
 {% endblock %}
@@ -12,31 +19,43 @@
     <h1>Stats</h1>
     <table class="table table-striped">
       <thead>
-      <tr>
-        <th scope="col" style="width: 100px">#</th>
-        <th scope="col"><a
-            href="?order_by={% if request.GET.order_by == 'username' %}-{% endif %}username">Username
-          {% if 'username' in request.GET.order_by %}
-            <div class="arrow-{% if request.GET.order_by != 'username' %}up{% else %}down{% endif %} ml-2 mb-1"></div>
-          {% endif %}
-        </a></th>
-        <th scope="col" style="width: 250px"><a
-            href="?order_by={% if request.GET.order_by == 'completed_challenges' %}-{% endif %}completed_challenges">Challenges completed
-          {% if 'username' not in request.GET.order_by or not request.GET.order_by %}
-            <div class="arrow-{% if request.GET.order_by == 'completed_challenges' %}up{% else %}down{% endif %} ml-2 mb-1"></div>
-          {% endif %}
-        </a>
-        </th>
-      </tr>
+        <tr>
+          <th scope="col" style="width: 100px">#</th>
+          <th scope="col">
+            <a href="?order_by={% if order_by == 'username' %}-{% endif %}username">Username
+              {% if 'username' in order_by %}
+                <div class="arrow-{% if order_by != 'username' %}up{% else %}down{% endif %} ml-2 mb-1"></div>
+              {% endif %}
+            </a>
+          </th>
+          <th scope="col" style="width: 250px">
+            <a href="?order_by={% if order_by == 'completed_challenges' %}-{% endif %}completed_challenges">Challenges
+              completed
+              {% if 'completed_challenges' in order_by %}
+                <div class="arrow-{% if order_by == 'completed_challenges' %}up{% else %}down{% endif %} ml-2 mb-1"></div>
+              {% endif %}
+            </a>
+          </th>
+          <th scope="col" style="width: 250px">
+            <a href="?order_by={% if order_by == 'score' %}-{% endif %}score">Score
+              {% if 'score' in order_by %}
+                <div class="arrow-{% if order_by == 'score' %}up{% else %}down{% endif %} ml-2 mb-1"></div>
+              {% endif %}
+            </a>
+          </th>
+        </tr>
       </thead>
       <tbody>
       {% for usr in users %}
         <tr>
           <th scope="row">{{ forloop.counter }}</th>
           <td>
-            <a {% if user.username == usr.username %}class="stats-user"{% endif %} href="{% url 'accounts:profile' username=usr.username %}">{{ usr.username }}</a><br>
+            <a {% if user.username == usr.username %}class="stats-user"{% endif %}
+               href="{% url 'accounts:profile' username=usr.username %}">{{ usr.username }}
+            </a><br>
           </td>
           <td>{{ usr.completed_challenges }}<br></td>
+          <td>{{ usr.score }}<br></td>
         </tr>
       {% endfor %}
       </tbody>
