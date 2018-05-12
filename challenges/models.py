@@ -39,6 +39,10 @@ class Challenge(models.Model):
     class Meta:
         ordering = ["order"]
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._result = None
+
     def get_query_result(self, sql, fail_silently=False):
         result_column_names = None
         result_content_rows = None
@@ -88,8 +92,11 @@ class Challenge(models.Model):
 
         return is_successful, result["column_names"], result["content_rows"]
 
-    def recreate_result_table(self, fail_silently=False):
-        result = self.get_query_result(self.solution_sql, fail_silently)
+    def recreate_result_table(self):
+        if self._result:
+            result = self._result
+        else:
+            result = self.get_query_result(self.solution_sql, fail_silently=False)
         if result["column_names"] and result["content_rows"]:
             if not hasattr(self, 'result_table'):
                 self.result_table = ChallengeResultTable.objects.create(
@@ -105,7 +112,7 @@ class Challenge(models.Model):
     def clean(self):
         super().clean()
         try:
-            self.recreate_result_table(fail_silently=False)
+            self._result = self.get_query_result(self.solution_sql, fail_silently=False)
         except (psycopg2.Error, psycopg2.Warning) as e:
             raise ValidationError({
                 "solution_sql": str(e)
@@ -113,7 +120,7 @@ class Challenge(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        self.recreate_result_table(fail_silently=False)
+        self.recreate_result_table()
 
     def __str__(self):
         return self.name
