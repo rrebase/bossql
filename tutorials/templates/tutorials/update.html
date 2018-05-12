@@ -6,12 +6,12 @@
 <h1>Update</h1><br>
 Update clause is a clause in SQL used to change records data in a database.<br>
 The standard format of insert clause is the following:<br>
-<b>UPDATE table name SET column name = value;</b><br>
+<pre><code><b>UPDATE table name SET column name = value;</b></code></pre><br>
 An example of a UPDATE clause:<br><br>
-<pre>UPDATE Workers SET age = 27;</pre>
+<pre><code>UPDATE Workers SET age = 27;</code></pre>
 With this query, we change ages of all the records in Workers table to 27.<br>
 In order to change only Bob Michaelson's age, we have to add WHERE, as following:<br>
-<pre>UPDATE Workers SET age = 27 WHERE firstname = 'Bob' AND lastname = 'Michaelson';</pre>
+<pre><code>UPDATE Workers SET age = 27 WHERE firstname = 'Bob' AND lastname = 'Michaelson';</code></pre>
 It selects only the record, where worker's firstname is Bob and lastname is Michaelson.
 </div>
 {% endblock %}

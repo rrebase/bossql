@@ -30,7 +30,7 @@ class Challenge(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
     hints = models.TextField(blank=True)
-    points = models.PositiveIntegerField(default=1)
+    points = models.PositiveIntegerField(default=10)
     solution_sql = models.TextField()
     evaluation_sql = models.TextField(blank=True)
     available = models.BooleanField(default=True)
