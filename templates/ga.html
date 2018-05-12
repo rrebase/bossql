@@ -7,6 +7,6 @@
     ga('send', 'pageview');
 
     {% if request.user.is_authenticated %}
-        ga('set', '&uid', {{ request.user.id }}); {# Set the user ID using signed-in user_id. #}
+        ga('set', 'userId', {{ request.user.id }}); {# Set the user ID using signed-in user_id. #}
     {% endif %}
 </script>
