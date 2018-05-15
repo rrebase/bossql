@@ -1,70 +1,74 @@
 [
-  {
-    "model": "challenges.challengetopic",
-    "pk": 2,
-    "fields": {
-      "name": "SELECT",
-      "summary": "Get different records from different tables.",
-      "description": "Get different records from different tables, corresponding constraints.",
-      "available": true,
-      "order": 0
-    }
-  },
-  {
-    "model": "challenges.topicsourcetable",
-    "pk": 2,
-    "fields": {
-      "topic": 2,
-      "name": "Persons",
-      "creation_sql": "CREATE TABLE Persons (\r\n    id serial PRIMARY KEY,\r\n    LastName varchar(255),\r\n    FirstName varchar(255),\r\n    Address varchar(255),\r\n    City varchar(255) \r\n);\r\nINSERT INTO Persons (LastName, FirstName) VALUES ('Lastname', 'Firstname');",
-      "column_names_json": "[\"id\", \"lastname\", \"firstname\", \"address\", \"city\"]",
-      "content_rows_json": "[[1, \"Lastname\", \"Firstname\", null, null]]",
-      "creation_order": 0,
-      "order": 0
-    }
-  },
-    {
-    "model": "challenges.challenge",
-    "pk": 3,
-    "fields": {
-      "topic": 2,
-      "name": "Get specific records from persons table.",
-      "description": "Get all records from persons table, show firstname, lastname.",
-      "hints": "Use SELECT clause.",
-      "solution_sql": "SELECT FirstName, LastName FROM Persons ;",
-      "evaluation_sql": "",
-      "available": true,
-      "order": 0
-    }
-  },
-  {
-    "model": "challenges.challengeresulttable",
-    "pk": 1,
-    "fields": {
-      "challenge": 3,
-      "column_names_json": "[\"firstname\", \"lastname\"]",
-      "content_rows_json": "[[\"Firstname\", \"Lastname\"]]"
-    }
-  },
-  {
-    "model": "accounts.customuser",
-    "pk": 1,
-    "fields": {
-      "password": "pbkdf2_sha256$100000$2lV9fTMDCzyT$2kSYey8k3MxaAJT10jCBq66pk5RiRBb7+pRArltwNCA=",
-      "last_login": "2018-04-10T11:04:12.576Z",
-      "is_superuser": true,
-      "first_name": "",
-      "last_name": "",
-      "is_staff": true,
-      "is_active": true,
-      "date_joined": "2018-04-10T11:04:04.571Z",
-      "username": "mikk125",
-      "email": "mikk.sillamaa@gmail.com",
-      "completed_challenges": 0,
-      "allow_seen_in_stats": true,
-      "is_email_public": false,
-      "groups": [],
-      "user_permissions": []
-    }
+{
+  "model": "challenges.challengetopic",
+  "pk": 2,
+  "fields": {
+    "name": "SELECT",
+    "summary": "Get different records from different tables.",
+    "description": "Get different records from different tables, corresponding constraints.",
+    "available": true,
+    "order": 0
   }
+},
+{
+  "model": "challenges.challenge",
+  "pk": 3,
+  "fields": {
+    "topic": 2,
+    "name": "Get specific records from persons table.",
+    "description": "Get all records from persons table, show firstname, lastname.",
+    "hints": "Use SELECT clause.",
+    "points": 10,
+    "solution_sql": "SELECT FirstName, LastName FROM Persons ;",
+    "evaluation_sql": "",
+    "available": true,
+    "order": 0
+  }
+},
+{
+  "model": "challenges.topicsourcetable",
+  "pk": 2,
+  "fields": {
+    "name": "Persons",
+    "creation_sql": "CREATE TABLE Persons (\r\n    id serial PRIMARY KEY,\r\n    LastName varchar(255),\r\n    FirstName varchar(255),\r\n    Address varchar(255),\r\n    City varchar(255) \r\n);\r\nINSERT INTO Persons (LastName, FirstName) VALUES ('Lastname', 'Firstname');",
+    "column_names_json": "[\"id\", \"lastname\", \"firstname\", \"address\", \"city\"]",
+    "content_rows_json": "[[1, \"Lastname\", \"Firstname\", null, null]]",
+    "creation_order": 0,
+    "order": 0,
+    "topics": [
+      2
+    ]
+  }
+},
+{
+  "model": "challenges.challengeresulttable",
+  "pk": 1,
+  "fields": {
+    "challenge": 3,
+    "column_names_json": "[\"firstname\", \"lastname\"]",
+    "content_rows_json": "[[\"Firstname\", \"Lastname\"]]"
+  }
+},
+{
+  "model": "accounts.customuser",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$100000$2lV9fTMDCzyT$2kSYey8k3MxaAJT10jCBq66pk5RiRBb7+pRArltwNCA=",
+    "last_login": "2018-04-10T11:04:12.576Z",
+    "is_superuser": true,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2018-04-10T11:04:04.571Z",
+    "username": "mikk125",
+    "email": "mikk.sillamaa@gmail.com",
+    "completed_challenges": 0,
+    "score": 0,
+    "allow_seen_in_stats": true,
+    "is_email_public": false,
+    "groups": [],
+    "user_permissions": []
+  }
+}
 ]
