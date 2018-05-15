@@ -97,7 +97,7 @@ class Challenge(models.Model):
             result = self._result
         else:
             result = self.get_query_result(self.solution_sql, fail_silently=False)
-        if result["column_names"] and result["content_rows"]:
+        if result["column_names"]:
             if not hasattr(self, 'result_table'):
                 self.result_table = ChallengeResultTable.objects.create(
                     challenge=self,
