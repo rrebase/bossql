@@ -144,9 +144,10 @@ class ChallengeAttempt(models.Model):
 
 
 class TopicSourceTable(models.Model):
-    topic = models.ForeignKey(ChallengeTopic,
-                              on_delete=models.CASCADE,
-                              related_name="source_tables")
+    #topic = models.ForeignKey(ChallengeTopic,
+    #                          on_delete=models.CASCADE,
+    #                          related_name="source_table")
+    topics = models.ManyToManyField(ChallengeTopic, related_name="source_tables")
     name = models.CharField(max_length=200)
     creation_sql = models.TextField()
     column_names_json = models.TextField(default="", editable=False)
