@@ -38,7 +38,8 @@ code {
   padding: 10px;
   overflow: scroll;
   max-height: 270px;
-  min-width: 30vw; }
+  min-width: 30vw;
+  max-width: 45vw;}
 
 .dropdown {
   cursor: default; }
