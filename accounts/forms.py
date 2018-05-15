@@ -21,6 +21,8 @@ class CustomUserCreationForm(UserCreationForm):
     def clean_username(self):
         if CustomUser.objects.filter(username__iexact=self.cleaned_data['username']):
             self.add_error('username', 'A user with that username already exists.')
+        else:
+            return self.cleaned_data['username']
 
 
 class CustomUserChangeForm(UserChangeForm):
