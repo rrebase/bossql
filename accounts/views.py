@@ -1,14 +1,14 @@
+from django.contrib import messages
+from django.contrib.auth import authenticate
+from django.contrib.auth import login
+from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404, redirect
-from django.views import generic
+from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.contrib.auth import get_user_model, authenticate
+from django.views import generic
 
 from accounts.models import CustomUser
 from .forms import CustomUserCreationForm, CustomUserLoginForm, ProfileSettingsForm
-from django.contrib.auth import login
-from django.contrib.auth.views import LoginView
-from django.contrib import messages
 
 
 class Login(LoginView):

@@ -35,7 +35,11 @@ admin.site.register(ChallengeTopic)
 
 @admin.register(TopicSourceTable)
 class TopicSourceTableAdmin(admin.ModelAdmin):
-    list_display = ("name", "topic")
+    list_display = ("name", "get_topics")
+
+    def get_topics(self, obj):
+        return ", ".join(map(str, obj.topics.all()))
+    get_topics.short_description = "Topics"
 
 
 admin.site.register(ChallengeResultTable)

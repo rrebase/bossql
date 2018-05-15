@@ -18,6 +18,10 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ("username", "email")
         error_messages = ""
 
+    def clean_username(self):
+        if CustomUser.objects.filter(username__iexact=self.cleaned_data['username']):
+            self.add_error('username', 'A user with that username already exists.')
+
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta:

@@ -6,7 +6,7 @@ from django.db import models
 from django.utils import timezone
 
 from accounts.models import CustomUser
-from .utils import get_env_db_conn
+from .utils import get_env_db_cur
 
 
 class ChallengeTopic(models.Model):
@@ -47,23 +47,21 @@ class Challenge(models.Model):
         result_column_names = None
         result_content_rows = None
         try:
-            with get_env_db_conn() as conn:
-                with conn.cursor() as cur:
-                    for source_table in self.topic.source_tables.order_by("creation_order"):
-                        source_table.create_table(cur)
-                    cur.execute(sql)
-                    if self.evaluation_sql:
-                        cur.execute(self.evaluation_sql)
-                    result_column_names = [col.name for col in cur.description]
-                    result_content_rows = [list(row) for row in cur.fetchall()]
-                    conn.rollback()
+            with get_env_db_cur() as cur:
+                for source_table in self.topic.source_tables.order_by("creation_order"):
+                    source_table.create_table(cur)
+                cur.execute(sql)
+                if self.evaluation_sql:
+                    cur.execute(self.evaluation_sql)
+                result_column_names = [col.name for col in cur.description]
+                result_content_rows = [list(row) for row in cur.fetchall()]
         except psycopg2.ProgrammingError:
             if not fail_silently:
                 raise
         return {"column_names": result_column_names, "content_rows": result_content_rows}
 
     def attempt(self, sql, user):
-        result = self.get_query_result(sql, fail_silently=True)
+        result = self.get_query_result(sql, fail_silently=False)
         is_successful = (result["column_names"] == json.loads(self.result_table.column_names_json)
                          and result["content_rows"] == json.loads(self.result_table.content_rows_json))
 
@@ -97,7 +95,7 @@ class Challenge(models.Model):
             result = self._result
         else:
             result = self.get_query_result(self.solution_sql, fail_silently=False)
-        if result["column_names"] and result["content_rows"]:
+        if result["column_names"]:
             if not hasattr(self, 'result_table'):
                 self.result_table = ChallengeResultTable.objects.create(
                     challenge=self,
@@ -146,9 +144,10 @@ class ChallengeAttempt(models.Model):
 
 
 class TopicSourceTable(models.Model):
-    topic = models.ForeignKey(ChallengeTopic,
-                              on_delete=models.CASCADE,
-                              related_name="source_tables")
+    #topic = models.ForeignKey(ChallengeTopic,
+    #                          on_delete=models.CASCADE,
+    #                          related_name="source_table")
+    topics = models.ManyToManyField(ChallengeTopic, related_name="source_tables")
     name = models.CharField(max_length=200)
     creation_sql = models.TextField()
     column_names_json = models.TextField(default="", editable=False)
@@ -178,14 +177,12 @@ class TopicSourceTable(models.Model):
             old_instance = TopicSourceTable.objects.get(pk=self.pk)
             old_creation_sql = old_instance.creation_sql
         if self.creation_sql != old_creation_sql:
-            with get_env_db_conn() as conn:
-                with conn.cursor() as cur:
-                    self.create_table(cur)
-                    cur.execute("SELECT * FROM {};".format(self.name))
-                    column_names = [column.name for column in cur.description]
-                    self.column_names_json = json.dumps(column_names)
-                    self.content_rows_json = json.dumps(cur.fetchall())
-                    conn.rollback()
+            with get_env_db_cur() as cur:
+                self.create_table(cur)
+                cur.execute("SELECT * FROM {};".format(self.name))
+                column_names = [column.name for column in cur.description]
+                self.column_names_json = json.dumps(column_names)
+                self.content_rows_json = json.dumps(cur.fetchall())
             for challenge in self.topic.challenges.all():
                 challenge.recreate_result_table()
 
