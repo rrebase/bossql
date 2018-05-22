@@ -6,6 +6,7 @@ from django.db import models
 from django.utils import timezone
 
 from accounts.models import CustomUser
+from bossql import settings
 from .utils import get_env_db_cur
 
 
@@ -35,6 +36,8 @@ class Challenge(models.Model):
     evaluation_sql = models.TextField(blank=True)
     available = models.BooleanField(default=True)
     order = models.IntegerField(default=0)
+    added_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                 null=True, blank=True, on_delete=models.SET_NULL)
 
     class Meta:
         ordering = ["order"]
@@ -144,7 +147,7 @@ class ChallengeAttempt(models.Model):
 
 
 class TopicSourceTable(models.Model):
-    #topic = models.ForeignKey(ChallengeTopic,
+    # topic = models.ForeignKey(ChallengeTopic,
     #                          on_delete=models.CASCADE,
     #                          related_name="source_table")
     topics = models.ManyToManyField(ChallengeTopic, related_name="source_tables")

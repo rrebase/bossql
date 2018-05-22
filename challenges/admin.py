@@ -11,7 +11,7 @@ admin.site.unregister(Group)
 
 @admin.register(Challenge)
 class ChallengeAdmin(admin.ModelAdmin):
-    list_display = ("name", "topic", "points")
+    list_display = ("name", "topic", "points", "added_by")
     readonly_fields = ("source_tables",)
     fields = ("topic", "name", "description", "hints", "points", "source_tables", "solution_sql", "evaluation_sql", "order")
 
@@ -23,6 +23,12 @@ class ChallengeAdmin(admin.ModelAdmin):
         source_tables = instance.topic.source_tables.all()
         return render_to_string("challenges/_admin_topic_source_tables.html",
                                 {"tables": source_tables})
+
+    def save_model(self, request, obj, form, change):
+        if not obj.pk:
+            # only set added_by during the first save
+            obj.added_by = request.user
+        super().save_model(request, obj, form, change)
 
 
 @admin.register(ChallengeAttempt)
