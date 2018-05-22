@@ -1,12 +1,17 @@
 from django.contrib import admin
+from django.contrib.auth.models import Group
+from django.db.models import Count
 from django.template.loader import render_to_string
 
 from .models import Challenge, ChallengeAttempt, ChallengeResultTable, TopicSourceTable, ChallengeTopic
 
+admin.site.site_header = "bossql admin"
+admin.site.unregister(Group)
+
 
 @admin.register(Challenge)
 class ChallengeAdmin(admin.ModelAdmin):
-    list_display = ("name", "topic")
+    list_display = ("name", "topic", "points")
     readonly_fields = ("source_tables",)
     fields = ("topic", "name", "description", "hints", "points", "source_tables", "solution_sql", "evaluation_sql", "order")
 
@@ -23,14 +28,29 @@ class ChallengeAdmin(admin.ModelAdmin):
 @admin.register(ChallengeAttempt)
 class ChallengeAttemptAdmin(admin.ModelAdmin):
     list_display = ("attempted_at", "user", "is_successful", "challenge", "get_topic")
+    list_filter = ("challenge", "is_successful")
 
     def get_topic(self, obj):
         return obj.challenge.topic
+
     get_topic.short_description = "Topic"
     get_topic.admin_order_field = "challenge__topic"
 
 
-admin.site.register(ChallengeTopic)
+@admin.register(ChallengeTopic)
+class ChallengeTopicAdmin(admin.ModelAdmin):
+    list_display = ("name", "available", "challenges_count")
+    list_filter = ("available",)
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        return queryset.annotate(challenges_count=Count("challenges", distinct=True))
+
+    def challenges_count(self, obj):
+        return obj.challenges_count
+
+    challenges_count.short_description = "Challenges in topic"
+    challenges_count.admin_order_field = 'challenges_count'
 
 
 @admin.register(TopicSourceTable)
@@ -39,6 +59,7 @@ class TopicSourceTableAdmin(admin.ModelAdmin):
 
     def get_topics(self, obj):
         return ", ".join(map(str, obj.topics.all()))
+
     get_topics.short_description = "Topics"
 
 

@@ -11,7 +11,8 @@ class CustomUserCreationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs)
         for field in ("username", "email", "password1", "password2"):
-            self.fields[field].widget.attrs["class"] = "form-control"
+            if field in self.fields:
+                self.fields[field].widget.attrs["class"] = "form-control"
 
     class Meta(UserCreationForm.Meta):
         model = CustomUser

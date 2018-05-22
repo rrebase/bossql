@@ -9,7 +9,7 @@ class CustomUserAdmin(UserAdmin):
     model = CustomUser
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
-    list_display = UserAdmin.list_display + ("score",)
+    list_display = ('username', 'email', 'is_staff', 'score',)
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
