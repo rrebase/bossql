@@ -1,6 +1,6 @@
 import re
 
-from django.shortcuts import render
+from django.db.models.functions import Lower
 from django.views.generic import ListView
 
 from accounts.models import CustomUser
@@ -10,6 +10,7 @@ class StatsView(ListView):
     model = CustomUser
     template_name = "stats/index.html"
     context_object_name = "users"
+    paginate_by = 20
 
     def get_ordering(self):
         order_by = self.request.GET.get("order_by", "")
@@ -24,4 +25,10 @@ class StatsView(ListView):
         return context_data
 
     def get_queryset(self):
-        return super().get_queryset().filter(allow_seen_in_stats=True)
+        queryset = super().get_queryset().filter(allow_seen_in_stats=True)
+        ordering = self.get_ordering()
+        if ordering == "username":
+            queryset = queryset.order_by(Lower(ordering))
+        elif ordering == "-username":
+            queryset = queryset.order_by(Lower(ordering[1:])).reverse()
+        return queryset
