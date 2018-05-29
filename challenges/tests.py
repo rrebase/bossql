@@ -1,6 +1,7 @@
 from django.test import TestCase
-from challenges.models import Challenge, ChallengeAttempt
+
 from accounts.models import CustomUser
+from challenges.models import Challenge
 
 
 class ChallengesTests(TestCase):

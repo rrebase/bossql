@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 
 from accounts.models import CustomUser
-from .forms import ChangeSettingsForm, CustomUserCreationForm, CustomUserLoginForm, PasswordChangeCustomForm
+from accounts.forms import ChangeSettingsForm, CustomUserCreationForm, CustomUserLoginForm, PasswordChangeCustomForm
 
 
 class Login(LoginView):

@@ -1,7 +1,7 @@
 from django.urls import path, re_path
 from django.views.generic import RedirectView
 
-from . import views
+from accounts import views
 
 app_name = 'accounts'
 urlpatterns = [

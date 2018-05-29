@@ -1,3 +1,5 @@
+from unittest import skip
+
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium.webdriver.chrome.webdriver import WebDriver
 
@@ -51,10 +53,12 @@ class AccountsSeleniumTests(StaticLiveServerTestCase):
     def reset_visible(self):
         self.log_in('test1', 'testparool1')
         self.selenium.get('%s%s' % (self.live_server_url, '/accounts/test1'))
+        btn = self.selenium.find_element_by_id('change_settings')
+        btn.click()
         check_box = self.selenium.find_element_by_id('id_allow_seen_in_stats')
         if not check_box.is_selected():
             check_box.click()
-            button = self.selenium.find_element_by_class_name('my-4')
+            button = self.selenium.find_element_by_id('save_settings')
             button.submit()
 
     def turn_off_email_public(self):
@@ -69,6 +73,7 @@ class AccountsSeleniumTests(StaticLiveServerTestCase):
     def log_out(self):
         self.selenium.get('%s%s' % (self.live_server_url, '/logout'))
 
+    @skip
     def test_email_public(self):
         self.turn_off_email_public()
         self.log_out()
@@ -90,9 +95,11 @@ class AccountsSeleniumTests(StaticLiveServerTestCase):
         self.log_out()
         self.reset_visible()
         self.selenium.get('%s%s' % (self.live_server_url, '/accounts/test1/'))
+        btn = self.selenium.find_element_by_id('change_settings')
+        btn.click()
         check_box = self.selenium.find_element_by_id('id_allow_seen_in_stats')
         check_box.click()
-        button = self.selenium.find_element_by_class_name('my-4')
+        button = self.selenium.find_element_by_id('save_settings')
         button.submit()
         self.selenium.get('%s%s' % (self.live_server_url, '/stats/'))
         content = self.selenium.find_element_by_class_name('table-striped').text
