@@ -1,6 +1,7 @@
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm
-from .models import CustomUser
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm, PasswordChangeForm
 from django.forms import ModelForm
+
+from .models import CustomUser
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -40,13 +41,21 @@ class CustomUserLoginForm(AuthenticationForm):
         self.fields["password"].widget.attrs["class"] = "form-control"
 
 
-class ProfileSettingsForm(ModelForm):
+class ChangeSettingsForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ModelForm, self).__init__(*args, **kwargs)
         self.fields["allow_seen_in_stats"].widget.attrs["class"] = "form-check-input"
-        self.fields["is_email_public"].widget.attrs["class"] = "form-check-input"
 
     class Meta:
         model = CustomUser
-        fields = ("allow_seen_in_stats", "is_email_public")
+        fields = ("allow_seen_in_stats",)
+
+
+class PasswordChangeCustomForm(PasswordChangeForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["old_password"].widget.attrs["class"] = "form-control"
+        self.fields["new_password1"].widget.attrs["class"] = "form-control"
+        self.fields["new_password2"].widget.attrs["class"] = "form-control"

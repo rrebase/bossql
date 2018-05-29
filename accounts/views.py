@@ -1,14 +1,14 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordChangeDoneView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
 from accounts.models import CustomUser
-from .forms import CustomUserCreationForm, CustomUserLoginForm, ProfileSettingsForm
+from .forms import ChangeSettingsForm, CustomUserCreationForm, CustomUserLoginForm, PasswordChangeCustomForm
 
 
 class Login(LoginView):
@@ -23,7 +23,7 @@ def profile_view(request, username):
         instance = CustomUser.objects.get(id=request.user.id)
     except CustomUser.DoesNotExist:
         return render(request, "accounts/profile.html", {"customuser": CustomUser.objects.get(username=username)})
-    form = ProfileSettingsForm(request.POST or None, instance=instance)
+    form = ChangeSettingsForm(request.POST or None, instance=instance)
     if form.is_valid():
         form.save()
         messages.success(request, 'Profile details updated.')
@@ -48,3 +48,23 @@ class Register(generic.CreateView):
         new_user = authenticate(username=username, password=password)
         login(self.request, new_user)
         return valid
+
+
+class PasswordChangeCustomView(PasswordChangeView):
+    template_name = 'accounts/change_password.html'
+    success_url = reverse_lazy('accounts:password_change_done')
+    form_class = PasswordChangeCustomForm
+
+
+class PasswordChangeDoneCustomView(PasswordChangeDoneView):
+    template_name = 'accounts/change_password_done.html'
+
+
+class ChangeSettingsView(generic.UpdateView):
+    template_name = 'accounts/change_settings.html'
+    success_url = reverse_lazy('home')
+    form_class = ChangeSettingsForm
+    model = CustomUser
+
+    def get_object(self, queryset=None):
+        return self.request.user
