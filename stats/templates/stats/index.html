@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load stats_utils %}
 
 {% block seo %}
   <meta name="description" content="bossql - Learn SQL through challenges.
@@ -48,7 +49,7 @@
       <tbody>
       {% for usr in users %}
         <tr>
-          <th scope="row">{{ forloop.counter }}</th>
+          <th scope="row">{% row_number page_obj.number paginator.per_page forloop.counter %}</th>
           <td>
             <a {% if user.username == usr.username %}class="stats-user"{% endif %}
                href="{% url 'accounts:profile' username=usr.username %}">{{ usr.username }}
