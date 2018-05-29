@@ -18,7 +18,7 @@ class ChallengeTopic(models.Model):
     order = models.IntegerField(default=0)
 
     class Meta:
-        ordering = ["order"]
+        ordering = ['order']
 
     def __str__(self):
         return self.name
@@ -27,7 +27,7 @@ class ChallengeTopic(models.Model):
 class Challenge(models.Model):
     topic = models.ForeignKey(ChallengeTopic,
                               on_delete=models.PROTECT,
-                              related_name="challenges")
+                              related_name='challenges')
     name = models.CharField(max_length=200)
     description = models.TextField()
     hints = models.TextField(blank=True)
@@ -40,7 +40,7 @@ class Challenge(models.Model):
                                  null=True, blank=True, on_delete=models.SET_NULL)
 
     class Meta:
-        ordering = ["order"]
+        ordering = ['order']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -51,7 +51,7 @@ class Challenge(models.Model):
         result_content_rows = None
         try:
             with get_env_db_cur() as cur:
-                for source_table in self.topic.source_tables.order_by("creation_order"):
+                for source_table in self.topic.source_tables.order_by('creation_order'):
                     source_table.create_table(cur)
                 cur.execute(sql)
                 if self.evaluation_sql:
@@ -61,15 +61,15 @@ class Challenge(models.Model):
         except psycopg2.ProgrammingError:
             if not fail_silently:
                 raise
-        return {"column_names": result_column_names, "content_rows": result_content_rows}
+        return {'column_names': result_column_names, 'content_rows': result_content_rows}
 
     def attempt(self, sql, user):
         result = self.get_query_result(sql, fail_silently=False)
-        is_successful = (result["column_names"] == json.loads(self.result_table.column_names_json)
-                         and result["content_rows"] == json.loads(self.result_table.content_rows_json))
+        is_successful = (result['column_names'] == json.loads(self.result_table.column_names_json)
+                         and result['content_rows'] == json.loads(self.result_table.content_rows_json))
 
         if not user.is_authenticated:
-            return is_successful, result["column_names"], result["content_rows"]
+            return is_successful, result['column_names'], result['content_rows']
 
         attempt = self.attempts.filter(user=user).first()
         if not attempt:
@@ -91,23 +91,23 @@ class Challenge(models.Model):
             attempt.is_successful = is_successful
             attempt.save()
 
-        return is_successful, result["column_names"], result["content_rows"]
+        return is_successful, result['column_names'], result['content_rows']
 
     def recreate_result_table(self):
         if self._result:
             result = self._result
         else:
             result = self.get_query_result(self.solution_sql, fail_silently=False)
-        if result["column_names"]:
+        if result['column_names']:
             if not hasattr(self, 'result_table'):
                 self.result_table = ChallengeResultTable.objects.create(
                     challenge=self,
-                    column_names_json=json.dumps(result["column_names"]),
-                    content_rows_json=json.dumps(result["content_rows"])
+                    column_names_json=json.dumps(result['column_names']),
+                    content_rows_json=json.dumps(result['content_rows'])
                 )
             else:
-                self.result_table.column_names_json = json.dumps(result["column_names"])
-                self.result_table.content_rows_json = json.dumps(result["content_rows"])
+                self.result_table.column_names_json = json.dumps(result['column_names'])
+                self.result_table.content_rows_json = json.dumps(result['content_rows'])
                 self.result_table.save()
 
     def clean(self):
@@ -116,7 +116,7 @@ class Challenge(models.Model):
             self._result = self.get_query_result(self.solution_sql, fail_silently=False)
         except (psycopg2.Error, psycopg2.Warning) as e:
             raise ValidationError({
-                "solution_sql": str(e)
+                'solution_sql': str(e)
             })
 
     def save(self, *args, **kwargs):
@@ -130,39 +130,40 @@ class Challenge(models.Model):
 class ChallengeAttempt(models.Model):
     challenge = models.ForeignKey(Challenge,
                                   on_delete=models.CASCADE,
-                                  related_name="attempts")
+                                  related_name='attempts')
     user = models.ForeignKey(CustomUser,
                              on_delete=models.CASCADE,
-                             related_name="challenge_attempts")
+                             related_name='challenge_attempts')
     tried_sql = models.TextField()
     is_successful = models.BooleanField(default=False)
     fail_count = models.IntegerField(default=0)
     attempted_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return "Attempt for challenge '{challenge}' by user '{user}'".format(
+        return 'Attempt for challenge \'{challenge}\' by user \'{user}\''.format(
             challenge=self.challenge,
             user=self.user
         )
 
 
 class TopicSourceTable(models.Model):
-    # topic = models.ForeignKey(ChallengeTopic,
-    #                          on_delete=models.CASCADE,
-    #                          related_name="source_table")
-    topics = models.ManyToManyField(ChallengeTopic, related_name="source_tables")
+    topics = models.ManyToManyField(ChallengeTopic, related_name='source_tables')
     name = models.CharField(max_length=200)
     creation_sql = models.TextField()
-    column_names_json = models.TextField(default="", editable=False)
-    content_rows_json = models.TextField(default="", editable=False)
+    column_names_json = models.TextField(default='', editable=False)
+    content_rows_json = models.TextField(default='', editable=False)
     creation_order = models.IntegerField(default=0)
     order = models.IntegerField(default=0)
 
     class Meta:
-        ordering = ["order"]
+        ordering = ['order']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.topic = None
 
     def drop_table(self, cur):
-        cur.execute("DROP TABLE IF EXISTS {};".format(self.name))
+        cur.execute('DROP TABLE IF EXISTS {};'.format(self.name))
 
     def create_table(self, cur):
         self.drop_table(cur)
@@ -182,7 +183,7 @@ class TopicSourceTable(models.Model):
         if self.creation_sql != old_creation_sql:
             with get_env_db_cur() as cur:
                 self.create_table(cur)
-                cur.execute("SELECT * FROM {};".format(self.name))
+                cur.execute('SELECT * FROM {};'.format(self.name))
                 column_names = [column.name for column in cur.description]
                 self.column_names_json = json.dumps(column_names)
                 self.content_rows_json = json.dumps(cur.fetchall())
@@ -194,7 +195,7 @@ class TopicSourceTable(models.Model):
             self._store_representation()
         except (psycopg2.Error, psycopg2.Warning) as e:
             raise ValidationError({
-                "creation_sql": str(e)
+                'creation_sql': str(e)
             })
 
     def __str__(self):
@@ -204,9 +205,9 @@ class TopicSourceTable(models.Model):
 class ChallengeResultTable(models.Model):
     challenge = models.OneToOneField(Challenge,
                                      on_delete=models.CASCADE,
-                                     related_name="result_table")
-    column_names_json = models.TextField(default="")
-    content_rows_json = models.TextField(default="")
+                                     related_name='result_table')
+    column_names_json = models.TextField(default='')
+    content_rows_json = models.TextField(default='')
 
     def get_column_names(self):
         return json.loads(self.column_names_json)
@@ -215,4 +216,4 @@ class ChallengeResultTable(models.Model):
         return json.loads(self.content_rows_json)
 
     def __str__(self):
-        return "ChallengeResultTable for challenge {}".format(self.challenge)
+        return 'ChallengeResultTable for challenge {}'.format(self.challenge)

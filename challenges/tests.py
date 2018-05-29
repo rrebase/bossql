@@ -3,14 +3,13 @@ from challenges.models import Challenge, ChallengeAttempt
 from accounts.models import CustomUser
 
 
-# Create your tests here.
 class ChallengesTests(TestCase):
     fixtures = ['challenges-test.json']
 
     def setUp(self):
-        self.user = CustomUser.objects.create_user(username="testusername",
-                                                   email="testusername@hot.ee",
-                                                   password="testpassword")
+        self.user = CustomUser.objects.create_user(username='testusername',
+                                                   email='testusername@hot.ee',
+                                                   password='testpassword')
 
         self.challenge_instance = Challenge.objects.get(pk=3)
 

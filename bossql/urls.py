@@ -22,13 +22,13 @@ import django.contrib.auth.urls
 import challenges.views
 
 urlpatterns = [
-    path("", challenges.views.IndexView.as_view(), name="home"),
-    path("accounts/", include("accounts.urls")),
-    path("tutorials/", include("tutorials.urls")),
-    path("stats/", include("stats.urls")),
-    path("about/", include("about.urls")),
-    path("challenges/", include("challenges.urls")),
-    path("backdoor/", admin.site.urls),
+    path('', challenges.views.IndexView.as_view(), name='home'),
+    path('accounts/', include('accounts.urls')),
+    path('tutorials/', include('tutorials.urls')),
+    path('stats/', include('stats.urls')),
+    path('about/', include('about.urls')),
+    path('challenges/', include('challenges.urls')),
+    path('backdoor/', admin.site.urls),
     path('logout/', django.contrib.auth.views.LogoutView.as_view(), name='logout'),
-    path('robots.txt', lambda x: HttpResponse("User-Agent: *\nDisallow:", content_type="text/plain"), name="robots_file"),
+    path('robots.txt', lambda x: HttpResponse('User-Agent: *\nDisallow:', content_type='text/plain'), name='robots_file'),
 ]

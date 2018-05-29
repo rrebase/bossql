@@ -13,7 +13,7 @@ from .forms import ChangeSettingsForm, CustomUserCreationForm, CustomUserLoginFo
 
 class Login(LoginView):
     form_class = CustomUserLoginForm
-    success_url = reverse_lazy("home")
+    success_url = reverse_lazy('home')
     template_name = 'accounts/login.html'
 
 
@@ -22,25 +22,25 @@ def profile_view(request, username):
     try:
         instance = CustomUser.objects.get(id=request.user.id)
     except CustomUser.DoesNotExist:
-        return render(request, "accounts/profile.html", {"customuser": CustomUser.objects.get(username=username)})
+        return render(request, 'accounts/profile.html', {'customuser': CustomUser.objects.get(username=username)})
     form = ChangeSettingsForm(request.POST or None, instance=instance)
     if form.is_valid():
         form.save()
         messages.success(request, 'Profile details updated.')
         return HttpResponseRedirect(request.path_info)
-    context = {"customuser": CustomUser.objects.get(username=username), "form": form}
-    return render(request, "accounts/profile.html", context)
+    context = {'customuser': CustomUser.objects.get(username=username), 'form': form}
+    return render(request, 'accounts/profile.html', context)
 
 
 # class Profile(generic.DetailView):
 #     model = CustomUser
-#     template_name = "accounts/profile.html"
+#     template_name = 'accounts/profile.html'
 
 
 class Register(generic.CreateView):
     form_class = CustomUserCreationForm
-    success_url = reverse_lazy("home")
-    template_name = "accounts/register.html"
+    success_url = reverse_lazy('home')
+    template_name = 'accounts/register.html'
 
     def form_valid(self, form):
         valid = super(Register, self).form_valid(form)
