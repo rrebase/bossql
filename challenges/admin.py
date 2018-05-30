@@ -3,7 +3,7 @@ from django.contrib.auth.models import Group
 from django.db.models import Count
 from django.template.loader import render_to_string
 
-from .models import Challenge, ChallengeAttempt, ChallengeResultTable, TopicSourceTable, ChallengeTopic
+from challenges.models import Challenge, ChallengeAttempt, ChallengeResultTable, TopicSourceTable, ChallengeTopic
 
 admin.site.site_header = 'bossql admin'
 admin.site.unregister(Group)

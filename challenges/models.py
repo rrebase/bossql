@@ -7,7 +7,7 @@ from django.utils import timezone
 
 from accounts.models import CustomUser
 from bossql import settings
-from .utils import get_env_db_cur
+from challenges.utils import get_env_db_cur
 
 
 class ChallengeTopic(models.Model):

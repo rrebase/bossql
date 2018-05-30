@@ -7,7 +7,7 @@ from django.views import View
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import DetailView, ListView
 
-from .models import Challenge, ChallengeTopic
+from challenges.models import Challenge, ChallengeTopic
 
 
 class AdminTopicSourceTablesView(DetailView):
