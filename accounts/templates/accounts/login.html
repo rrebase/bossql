@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
 
 {% block seo %}
   <meta name="description" content="bossql - Learn SQL through challenges.
@@ -15,30 +17,6 @@
 {% block content %}
   <div class="container account-form">
     <h1 class="mb-5 text-center">Login page!</h1>
-    <form method="post">
-      {% csrf_token %}
-      {% if form.non_field_errors %}
-        {% if form.non_field_errors %}
-          <script>
-            document.getElementById('id_username').classList.add('is-invalid');
-            document.getElementById('id_password').classList.add('is-invalid');
-          </script>
-        {% endif %}
-        {% for error in form.non_field_errors %}
-          <p class="error-msg mt-1">
-            <strong>{{ error|escape }}</strong>
-          </p>
-        {% endfor %}
-      {% endif %}
-      <div class="form-group">
-        <label for="id_username">Username or Email</label>
-        {{ form.username }}
-      </div>
-      <div class="form-group">
-        <label for="id_username">Password</label>
-        {{ form.password }}
-      </div>
-      <button type="submit" class="btn btn-primary">Log in</button>
-    </form>
+    {% crispy form %}
   </div>
 {% endblock %}

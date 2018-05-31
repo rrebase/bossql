@@ -1,5 +1,7 @@
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Field, Submit
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm, PasswordChangeForm
-from django.forms import ModelForm
+from django.forms import ModelForm, CharField, PasswordInput
 
 from accounts.models import CustomUser
 
@@ -9,15 +11,26 @@ class CustomUserCreationForm(UserCreationForm):
         'password_mismatch': 'The two password fields didn\'t match.',
     }
 
-    def __init__(self, *args, **kwargs):
-        super(UserCreationForm, self).__init__(*args, **kwargs)
-        for field in ('username', 'email', 'password1', 'password2'):
-            if field in self.fields:
-                self.fields[field].widget.attrs['class'] = 'form-control'
+    password1 = CharField(
+        label='Password',
+        strip=False,
+        widget=PasswordInput,
+        help_text=None,
+    )
+    password2 = CharField(
+        label='Password confirmation',
+        widget=PasswordInput,
+        strip=False,
+        help_text='Enter the same password as before, for verification.',
+    )
 
-    class Meta(UserCreationForm.Meta):
+    class Meta:
         model = CustomUser
-        fields = ('username', 'email')
+        fields = ('username', 'email',)
+        help_texts = {
+            'username': None,
+            'email': 'We\'ll never share your email with anyone else.',
+        }
         error_messages = ''
 
     def clean_username(self):
@@ -25,6 +38,16 @@ class CustomUserCreationForm(UserCreationForm):
             self.add_error('username', 'A user with that username already exists.')
         else:
             return self.cleaned_data['username']
+
+    helper = FormHelper()
+    helper.form_class = 'form-group'
+    helper.layout = Layout(
+        Field('username', css_class='form-control', autocomplete='username'),
+        Field('email', css_class='form-control', autocomplete='email'),
+        Field('password1', css_class='form-control', autocomplete='off'),
+        Field('password2', css_class='form-control', autocomplete='off'),
+        Submit('Sign up', 'Sign up', css_class='mt-2', css_id='sign_up'),
+    )
 
 
 class CustomUserChangeForm(UserChangeForm):
@@ -35,10 +58,22 @@ class CustomUserChangeForm(UserChangeForm):
 
 class CustomUserLoginForm(AuthenticationForm):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['username'].widget.attrs['class'] = 'form-control'
-        self.fields['password'].widget.attrs['class'] = 'form-control'
+    def __init__(self, request=None, *args, **kwargs):
+        super().__init__(request, *args, **kwargs)
+        self.fields['username'].label = 'Username or Email'
+
+    error_messages = {
+        'invalid_login': "Please enter a correct %(username)s and password.",
+        'inactive': "This account is inactive.",
+    }
+
+    helper = FormHelper()
+    helper.form_class = 'form-group'
+    helper.layout = Layout(
+        Field('username', css_class='form-control', autocomplete='username'),
+        Field('password', css_class='form-control', autocomplete='current-password'),
+        Submit('Log in', 'Log in', css_class='mt-2', css_id='log_in'),
+    )
 
 
 class ChangeSettingsForm(ModelForm):

@@ -129,13 +129,17 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
+# Static files (CSS, JavaScr<ipt, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+
+# crispy_forms template pack
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Challenges environment db settings
 

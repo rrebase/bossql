@@ -27,7 +27,7 @@ class CustomUser(AbstractUser):
             'unique': _('A user with that username already exists.'),
         },
     )
-    email = models.EmailField('email address', blank=True, unique=True)
+    email = models.EmailField('email address', unique=True)
     completed_challenges = models.IntegerField(default=0)
     score = models.PositiveIntegerField(default=0)
     allow_seen_in_stats = models.BooleanField(default=True)

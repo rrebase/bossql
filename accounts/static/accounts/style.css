@@ -22,3 +22,14 @@
 .nr {
     font-size: 30px;
 }
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* override crispy_forms default */
+.asteriskField {
+    display: none;
+}

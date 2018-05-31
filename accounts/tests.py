@@ -47,7 +47,7 @@ class AccountsSeleniumTests(StaticLiveServerTestCase):
         password = self.selenium.find_element_by_id('id_password')
         password.send_keys(pwd)
 
-        form = self.selenium.find_element_by_class_name('btn-primary')
+        form = self.selenium.find_element_by_id('log_in')
         form.submit()
 
     def reset_visible(self):
