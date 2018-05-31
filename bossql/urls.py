@@ -19,16 +19,19 @@ from django.urls import include, path
 from django.contrib.auth import views
 import django.contrib.auth.urls
 
+from accounts import views
 import challenges.views
 
 urlpatterns = [
     path('', challenges.views.IndexView.as_view(), name='home'),
-    path('accounts/', include('accounts.urls')),
+    path('user/', include('accounts.urls')),
     path('tutorials/', include('tutorials.urls')),
     path('stats/', include('stats.urls')),
     path('about/', include('about.urls')),
     path('challenges/', include('challenges.urls')),
     path('backdoor/', admin.site.urls),
+    path('login/', views.Login.as_view(), name='login'),
+    path('register/', views.Register.as_view(), name='register'),
     path('logout/', django.contrib.auth.views.LogoutView.as_view(), name='logout'),
     path('robots.txt', lambda x: HttpResponse('User-Agent: *\nDisallow:', content_type='text/plain'), name='robots_file'),
 ]

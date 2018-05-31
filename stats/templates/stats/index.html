@@ -52,7 +52,7 @@
           <th scope="row">{% row_number page_obj.number paginator.per_page forloop.counter %}</th>
           <td>
             <a {% if user.username == usr.username %}class="stats-user"{% endif %}
-               href="{% url 'accounts:profile' username=usr.username %}">{{ usr.username }}
+               href="{% url 'accounts:profile' slug=usr.username %}">{{ usr.username }}
             </a>
           </td>
           <td>{{ usr.completed_challenges }}<br></td>

@@ -1,14 +1,11 @@
-from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordChangeDoneView
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
-from accounts.models import CustomUser
 from accounts.forms import ChangeSettingsForm, CustomUserCreationForm, CustomUserLoginForm, PasswordChangeCustomForm
+from accounts.models import CustomUser
 
 
 class Login(LoginView):
@@ -17,24 +14,11 @@ class Login(LoginView):
     template_name = 'accounts/login.html'
 
 
-def profile_view(request, username):
-    # TODO: clean up and show success message
-    try:
-        instance = CustomUser.objects.get(id=request.user.id)
-    except CustomUser.DoesNotExist:
-        return render(request, 'accounts/profile.html', {'customuser': CustomUser.objects.get(username=username)})
-    form = ChangeSettingsForm(request.POST or None, instance=instance)
-    if form.is_valid():
-        form.save()
-        messages.success(request, 'Profile details updated.')
-        return HttpResponseRedirect(request.path_info)
-    context = {'customuser': CustomUser.objects.get(username=username), 'form': form}
-    return render(request, 'accounts/profile.html', context)
-
-
-# class Profile(generic.DetailView):
-#     model = CustomUser
-#     template_name = 'accounts/profile.html'
+class UserProfileView(generic.DetailView):
+    model = CustomUser
+    slug_field = 'username'
+    template_name = 'accounts/profile.html'
+    context_object_name = 'customuser'
 
 
 class Register(generic.CreateView):
