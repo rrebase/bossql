@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block seo %}
   <meta name="description" content="bossql - Learn SQL through challenges.
@@ -15,19 +16,7 @@
 {% block content %}
   <div class="container account-form">
     <h1 class="mb-5 text-center">Change settings</h1>
-    <form method="post">
-      {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-        {% endfor %}
-      {% endif %}
-      {% csrf_token %}
-      <div class="form-check">
-        {{ form.allow_seen_in_stats }}
-        <label for="id_allow_seen_in_stats">Visible in stats</label>
-      </div>
-      <button type="submit" id="save_settings" class="btn btn-primary mt-5">Save settings</button>
-    </form>
+    {% crispy form %}
   </div>
 {% endblock %}
 

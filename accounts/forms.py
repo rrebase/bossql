@@ -86,11 +86,27 @@ class ChangeSettingsForm(ModelForm):
         model = CustomUser
         fields = ('allow_seen_in_stats',)
 
+    helper = FormHelper()
+    helper.form_class = 'form-group'
+    helper.layout = Layout(
+        Field('allow_seen_in_stats', css_class='form-check', autocomplete='off'),
+        Submit('Save settings', 'Save settings', css_class='mt-2', css_id='save_settings'),
+    )
+
 
 class PasswordChangeCustomForm(PasswordChangeForm):
+    new_password1 = CharField(
+        label="New password",
+        widget=PasswordInput,
+        strip=False,
+        help_text=None,
+    )
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['old_password'].widget.attrs['class'] = 'form-control'
-        self.fields['new_password1'].widget.attrs['class'] = 'form-control'
-        self.fields['new_password2'].widget.attrs['class'] = 'form-control'
+    helper = FormHelper()
+    helper.form_class = 'form-group'
+    helper.layout = Layout(
+        Field('old_password', css_class='form-control', autocomplete='current-password'),
+        Field('new_password1', css_class='form-control', autocomplete='off'),
+        Field('new_password2', css_class='form-control', autocomplete='off'),
+        Submit('Change my password', 'Change my password', css_class='mt-2', css_id='change_pw'),
+    )
