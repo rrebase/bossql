@@ -10,6 +10,7 @@
 {% block title %}{{ topic.name }}{% endblock %}
 
 {% block styles %}
+  <link rel="stylesheet" href="{% static 'challenges/codemirror/codemirror.css' %}">
   <link rel="stylesheet" href="{% static 'challenges/css/detail.css' %}">
 {% endblock %}
 
@@ -24,7 +25,8 @@
           {% for table in topic.source_tables.all %}
             <ul class="navbar-nav">
             <li class="nav-item dropdown">
-              <div class="nav-link dropdown-toggle disabled" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-table"></i> {{ table.name }}</div>
+              <div class="nav-link dropdown-toggle disabled" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-table"></i> {{ table.name }}</div>
               <div class="dropdown-menu disabled" aria-labelledby="navbarDropdown">
                 <div class="dropdown-table">
                   <table class="dropdown- menu disabled table table-striped table-bordered" aria-labelledby="navbarDropdown" id="list-item-{{ forloop.counter }}">
@@ -65,10 +67,11 @@
     </div>
     {% for challenge in topic.challenges.all %}
       {% with attempt=challenge|get_attempt_for_user:request.user %}
-        <div class="challenge mt-5 animated fadeIn">
+        <div class="challenge mt-5 animated fadeIn px-4">
           <div class="row">
             <div class="col pl-4 pt-2 pb-3">
-              <h4 style="float: left">{{ challenge.name }}</h4><h4 style="float: right; font-size: 16px" class="badge badge-secondary"><i class="fas fa-coins"></i> {{ challenge.points }} p</h4>
+              <h4 style="float: left">{{ challenge.name }}</h4><h4 style="float: right; font-size: 16px" class="badge badge-secondary">
+              <i class="fas fa-coins"></i> {{ challenge.points }} p</h4>
             </div>
           </div>
           <div class="row">
@@ -78,13 +81,14 @@
           </div>
           <div class="row mb-4">
             <div class="col">
-              <div class="editor" id="editor-{{ challenge.pk }}" data-initial-content="{% if attempt %}{{ attempt.tried_sql }}{% endif %}"></div>
+            <textarea class="codemirror-textarea" id="codemirror-textarea-{{ challenge.pk }}" title="editor">{% if attempt %}{{ attempt.tried_sql }}{% endif %}</textarea>
             </div>
           </div>
-          <div 
           <div class="row checkAlertRow">
             <div class="col-md-8 checkCol">
-              <button type="button" class="btn btn-outline-success checkBtn" data-challenge-id="{{ challenge.pk }}"><i class="far fa-arrow-alt-circle-up"></i> Check</button>
+              <button type="button" class="btn btn-outline-success checkBtn" data-challenge-id="{{ challenge.pk }}">
+                <i class="far fa-arrow-alt-circle-up"></i> Check
+              </button>
             </div>
             <div class="col-md-4 alertCol">
               {% if not attempt %}
@@ -92,11 +96,11 @@
                 </div>
               {% elif attempt.is_successful %}
                 <div class="alert alert-success" id="alert-{{ challenge.pk }}">
-                  <strong>Correct</strong>
+                  <strong><i class="fas fa-check"></i> Correct</strong>
                 </div>
               {% else %}
                 <div class="alert alert-danger" id="alert-{{ challenge.pk }}">
-                  <strong>Incorrect</strong>
+                  <strong><i class="fas fa-times"></i> Incorrect</strong>
                 </div>
               {% endif %}
             </div>
@@ -114,11 +118,16 @@
           </div>
         </div>
       {% endwith %}
+
     {% endfor %}
   </div>
 {% endblock %}
 
 {% block scripts %}
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js"></script>
+  <script type="text/javascript" src="{% static 'challenges/codemirror/codemirror.js' %}"></script>
+  <script type="text/javascript" src="{% static 'challenges/codemirror/sql.js' %}"></script>
+  <script type="text/javascript">
+    data = {{ django_data|safe }};
+  </script>
   <script type="text/javascript" src="{% static 'challenges/js/detail.js' %}"></script>
 {% endblock %}

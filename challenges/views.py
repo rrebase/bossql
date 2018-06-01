@@ -12,25 +12,30 @@ from challenges.models import Challenge, ChallengeTopic
 
 class AdminTopicSourceTablesView(DetailView):
     model = ChallengeTopic
-    template_name = "challenges/_admin_topic_source_tables.html"
+    template_name = 'challenges/_admin_topic_source_tables.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["tables"] = self.get_object().source_tables.all()
+        context['tables'] = self.get_object().source_tables.all()
         return context
 
 
 class IndexView(ListView):
     model = ChallengeTopic
-    template_name = "challenges/index.html"
-    context_object_name = "topics"
+    template_name = 'challenges/index.html'
+    context_object_name = 'topics'
 
 
-@method_decorator(ensure_csrf_cookie, name="dispatch")
+@method_decorator(ensure_csrf_cookie, name='dispatch')
 class TopicDetailView(DetailView):
     model = ChallengeTopic
-    template_name = "challenges/topic_detail.html"
-    context_object_name = "topic"
+    template_name = 'challenges/topic_detail.html'
+    context_object_name = 'topic'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['django_data'] = json.dumps({'number': 12, 'cookie': '3'})
+        return context
 
 
 class CheckAttemptEndpoint(View):
@@ -38,7 +43,7 @@ class CheckAttemptEndpoint(View):
     def post(self, request, *args, **kwargs):
         params = json.loads(request.body.decode('UTF-8'))
         challenge = get_object_or_404(Challenge,
-                                      pk=params.get("challengeId", None))
+                                      pk=params.get('challengeId', None))
         return HttpResponse(json.dumps(
-            challenge.attempt(params.get("attemptSql", None), self.request.user)
+            challenge.attempt(params.get('attemptSql', None), self.request.user)
         ))

@@ -1,13 +1,14 @@
-$challenge_width: 70%;
+$challenge_width: 80%;
 $mobile_width: 95%;
 
 body {
   margin-top: 160px;
 }
 
-.editor {
-  height: 150px;
-  border: 1px solid #535c6b;
+.CodeMirror {
+  font-size: 20px;
+  max-height: 180px;
+  border: solid 1px;
 }
 
 code {
@@ -100,4 +101,9 @@ code {
   .topic-alert {
     width: $mobile_width;
   }
+
+  .CodeMirror {
+    font-size: 10px;
+  }
+
 }

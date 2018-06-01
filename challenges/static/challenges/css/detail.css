@@ -1,15 +1,16 @@
 body {
   margin-top: 160px; }
 
-.editor {
-  height: 150px;
-  border: 1px solid #535c6b; }
+.CodeMirror {
+  font-size: 20px;
+  max-height: 180px;
+  border: solid 1px; }
 
 code {
   color: black; }
 
 .challenge {
-  width: 70%;
+  width: 80%;
   border: 5px solid #535c6b;
   padding: 10px;
   border-radius: 10px;
@@ -17,7 +18,7 @@ code {
   margin-right: auto; }
 
 .topic-header {
-  width: 70%;
+  width: 80%;
   padding: 10px;
   margin-left: auto;
   margin-right: auto;
@@ -25,7 +26,7 @@ code {
   border-bottom: 1px solid #535c6b; }
 
 .topic-alert {
-  width: 70%;
+  width: 80%;
   padding: 10px;
   margin-left: auto;
   margin-right: auto; }
@@ -39,7 +40,7 @@ code {
   overflow: scroll;
   max-height: 270px;
   min-width: 30vw;
-  max-width: 45vw;}
+  max-width: 45vw; }
 
 .dropdown {
   cursor: default; }
@@ -79,6 +80,9 @@ code {
     width: 95%; }
 
   .topic-alert {
-    width: 95%; } }
+    width: 95%; }
+
+  .CodeMirror {
+    font-size: 10px; } }
 
 /*# sourceMappingURL=detail.css.map */

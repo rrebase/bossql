@@ -45,19 +45,13 @@ function getCookie(name) {
 
 $(document).ready(function () {
 
-  $('.editor').each(function () {
-    let editor = ace.edit(this);
-    editor.setOptions({
-      fontSize: '12pt',
-      theme: 'ace/theme/chrome',
-      mode: 'ace/mode/sql',
-      showPrintMargin: false,
-      highlightActiveLine: false,
-      indentedSoftWrap: false,
+  $('.codemirror-textarea').each(function () {
+    let ed = CodeMirror.fromTextArea(this, {
+      lineNumbers: true,
+      mode: 'text/x-pgsql',
+      tabSize: 2,
     });
-    editor.renderer.updateFontSize();
-    editor.getSession().setUseWrapMode(true);
-    editor.setValue(this.dataset.initialContent, -1);
+    console.log(ed.getValue());
   });
 
   $('body').on('mouseenter mouseleave', '.dropdown', function (e) {
@@ -68,7 +62,7 @@ $(document).ready(function () {
 
   $('.checkBtn').on('click', function (event) {
     let challengeId = $(event.target).data('challengeId');
-    let attemptSql = ace.edit('editor-' + challengeId).getValue();
+    let attemptSql = $(`#codemirror-textarea-${challengeId} + .CodeMirror`)[0].CodeMirror.getValue();
     fetch('/challenges/check-attempt/', {
       method: 'POST',
       headers: {
@@ -86,11 +80,11 @@ $(document).ready(function () {
         if (json[0]) {
           alertDiv.attr('class', 'alert mb-1 alert-success');
           alertDiv.animateCss('tada');
-          alertDiv.html('<strong>Correct!</strong>');
+          alertDiv.html('<strong><i class="fas fa-check"></i> Correct</strong>');
         } else {
           alertDiv.attr('class', 'alert mb-1 alert-danger');
           alertDiv.animateCss('bounceIn');
-          alertDiv.html('<strong>Incorrect.</strong>');
+          alertDiv.html('<strong><i class="fas fa-times"></i> Incorrect</strong>');
         }
         // thanks to: https://www.htmlgoodies.com/beyond/css/working_w_tables_using_jquery.html
         let tbody = $('#resultTbody-' + challengeId);

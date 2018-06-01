@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordChangeDoneView
 from django.urls import reverse_lazy
 from django.views import generic
@@ -44,7 +45,7 @@ class PasswordChangeDoneCustomView(PasswordChangeDoneView):
     template_name = 'accounts/change_password_done.html'
 
 
-class ChangeSettingsView(generic.UpdateView):
+class ChangeSettingsView(LoginRequiredMixin, generic.UpdateView):
     template_name = 'accounts/change_settings.html'
     success_url = reverse_lazy('home')
     form_class = ChangeSettingsForm
