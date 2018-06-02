@@ -46,12 +46,11 @@ function getCookie(name) {
 $(document).ready(function () {
 
   $('.codemirror-textarea').each(function () {
-    let ed = CodeMirror.fromTextArea(this, {
+    let editor = CodeMirror.fromTextArea(this, {
       lineNumbers: true,
       mode: 'text/x-pgsql',
       tabSize: 2,
     });
-    console.log(ed.getValue());
   });
 
   $('body').on('mouseenter mouseleave', '.dropdown', function (e) {
@@ -77,14 +76,25 @@ $(document).ready(function () {
       .then(response => response.json())
       .then(json => {
         let alertDiv = $('#alert-' + challengeId);
+        let errorAlertDiv = $('#error-alert-' + challengeId);
         if (json[0]) {
           alertDiv.attr('class', 'alert mb-1 alert-success');
           alertDiv.animateCss('tada');
           alertDiv.html('<strong><i class="fas fa-check"></i> Correct</strong>');
+          errorAlertDiv.attr('class', '');
+          errorAlertDiv.html('');
         } else {
           alertDiv.attr('class', 'alert mb-1 alert-danger');
           alertDiv.animateCss('bounceIn');
-          alertDiv.html('<strong><i class="fas fa-times"></i> Incorrect</strong>');
+          if (json[3]) {
+            alertDiv.html('<strong><i class="fas fa-times"></i> Error</strong>');
+            errorAlertDiv.attr('class', 'alert mb-3 alert-secondary');
+            errorAlertDiv.html(json[3].replace(/\n/g, '<br/>'));
+          } else {
+            alertDiv.html('<strong><i class="fas fa-times"></i> Incorrect</strong>');
+            errorAlertDiv.attr('class', '');
+            errorAlertDiv.html('');
+          }
         }
         // thanks to: https://www.htmlgoodies.com/beyond/css/working_w_tables_using_jquery.html
         let tbody = $('#resultTbody-' + challengeId);

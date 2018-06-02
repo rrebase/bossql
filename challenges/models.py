@@ -49,6 +49,7 @@ class Challenge(models.Model):
     def get_query_result(self, sql, fail_silently=False):
         result_column_names = None
         result_content_rows = None
+        error = None
         try:
             with get_env_db_cur() as cur:
                 for source_table in self.topic.source_tables.order_by('creation_order'):
@@ -58,18 +59,23 @@ class Challenge(models.Model):
                     cur.execute(self.evaluation_sql)
                 result_column_names = [col.name for col in cur.description]
                 result_content_rows = [list(row) for row in cur.fetchall()]
-        except psycopg2.ProgrammingError:
+        except psycopg2.ProgrammingError as e:
+            error = '\n'.join(filter(lambda x: '^' not in x, e.pgerror.split('\n')))
             if not fail_silently:
                 raise
-        return {'column_names': result_column_names, 'content_rows': result_content_rows}
+        except TypeError:  # NoneType is not iterable - occurs when nothing selected
+            error = 'Nothing to show'
+            if not fail_silently:
+                raise
+        return {'column_names': result_column_names, 'content_rows': result_content_rows, 'error': error}
 
     def attempt(self, sql, user):
-        result = self.get_query_result(sql, fail_silently=False)
+        result = self.get_query_result(sql, fail_silently=True)
         is_successful = (result['column_names'] == json.loads(self.result_table.column_names_json)
                          and result['content_rows'] == json.loads(self.result_table.content_rows_json))
 
         if not user.is_authenticated:
-            return is_successful, result['column_names'], result['content_rows']
+            return is_successful, result['column_names'], result['content_rows'], result['error']
 
         attempt = self.attempts.filter(user=user).first()
         if not attempt:
@@ -91,7 +97,7 @@ class Challenge(models.Model):
             attempt.is_successful = is_successful
             attempt.save()
 
-        return is_successful, result['column_names'], result['content_rows']
+        return is_successful, result['column_names'], result['content_rows'], result['error']
 
     def recreate_result_table(self):
         if self._result:

@@ -2,12 +2,16 @@ body {
   margin-top: 160px; }
 
 .CodeMirror {
-  font-size: 20px;
+  font-size: 1.5vw;
   max-height: 180px;
   border: solid 1px; }
 
 code {
   color: black; }
+
+.result-div {
+  max-height: 300px;
+  overflow: scroll; }
 
 .challenge {
   width: 80%;
