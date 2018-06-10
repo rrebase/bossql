@@ -7,6 +7,7 @@ from django.views import View
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.generic import DetailView, ListView
 
+from accounts.models import CustomUser
 from challenges.models import Challenge, ChallengeTopic
 
 
@@ -34,7 +35,11 @@ class TopicDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['django_data'] = json.dumps({'number': 12, 'cookie': '3'})
+        if isinstance(self.request.user, CustomUser):
+            line_numbers = self.request.user.line_numbers
+        else:
+            line_numbers = True
+        context['django_data'] = json.dumps({'line_numbers': line_numbers})
         return context
 
 

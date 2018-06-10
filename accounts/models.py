@@ -32,5 +32,6 @@ class CustomUser(AbstractUser):
     score = models.PositiveIntegerField(default=0)
     allow_seen_in_stats = models.BooleanField(default=True)
     is_email_public = models.BooleanField(default=False)
+    line_numbers = models.BooleanField(default=True)
 
     objects = CustomUserManager()

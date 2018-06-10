@@ -193,8 +193,9 @@ class TopicSourceTable(models.Model):
                 column_names = [column.name for column in cur.description]
                 self.column_names_json = json.dumps(column_names)
                 self.content_rows_json = json.dumps(cur.fetchall())
-            for challenge in self.topic.challenges.all():
-                challenge.recreate_result_table()
+            if self.topic:
+                for challenge in self.topic.challenges.all():
+                    challenge.recreate_result_table()
 
     def clean(self):
         try:

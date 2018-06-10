@@ -84,12 +84,13 @@ class ChangeSettingsForm(ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ('allow_seen_in_stats',)
+        fields = ('allow_seen_in_stats', 'line_numbers')
 
     helper = FormHelper()
     helper.form_class = 'form-group'
     helper.layout = Layout(
         Field('allow_seen_in_stats', css_class='form-check', autocomplete='off'),
+        Field('line_numbers', css_class='form-check', autocomplete='off'),
         Submit('Save settings', 'Save settings', css_class='mt-2', css_id='save_settings'),
     )
 

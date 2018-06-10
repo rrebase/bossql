@@ -47,7 +47,7 @@ $(document).ready(function () {
 
   $('.codemirror-textarea').each(function () {
     let editor = CodeMirror.fromTextArea(this, {
-      lineNumbers: true,
+      lineNumbers: data['line_numbers'],
       mode: 'text/x-pgsql',
       tabSize: 2,
     });
